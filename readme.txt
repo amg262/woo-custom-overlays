@@ -1,4 +1,4 @@
-=== Woocommerce Custom Overlays ===
+=== WooCommerce Custom Overlays ===
 Contributors: amg26, amgxyz, ryanvaness
 Tags: woocommerce, woo, woocommerce image overlay, image overlay, product overlay, custom image overlay, woocommerce overlay, woo out of stock, product overlay, custom overlay, woocommerce overlay, woocommerce product overlay,woocommerce, out of stock, product, woocommerce product, sold out, out of stock
 Donate link: http://andrewgunn.xyz/donate

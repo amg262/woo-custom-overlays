@@ -14,7 +14,7 @@ class WC_Settings_Tab_wco {
 
     public static function submit_button() {
     	echo '<hr>';
-		submit_button( 'Reset Settings', 'delete button-secondary', 'reset_wco_options' );
+		//submit_button( 'Reset Settings', 'delete button-secondary', 'reset_wco_options' );
 
     }
     
@@ -125,7 +125,7 @@ class WC_Settings_Tab_wco {
 		$classes = array();
 		$native_classes = array(
 			'has-post-thumbnail','downloadable','virtual','shipping-taxable',
-			'purchasable','product-type-variable','has-children','instock','wco'
+			'purchasable','product-type-variable','has-children','instock','outofstock'
 		);
 		array_push($arr, 'banner-diagnoal.png');
 		array_push($arr, 'sign-pin.png');
@@ -265,6 +265,7 @@ class WC_Settings_Tab_wco {
 			'desc'     => __( '<small>&nbsp;Check this to <b>DISABLE</b> the out of stock overlay</small>', 'woo-wco' )
 		);*/
 		// Add second text field option
+		echo '<h3>To create a overlays, choose the number of total rows, or seperate overlay images and click save. ';
 		$settings_wco[] = array(
 			'name'     => __( 'License Key', 'woo-wco' ),
 			//'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-wco' ),
@@ -284,10 +285,10 @@ class WC_Settings_Tab_wco {
 			'type'     => 'select',
 			'class'    => 'wc-enhanced-select',
 			'default' => 0,
-			'desc'     => __( '&nbsp;', 'woo-wco' ),
+			'desc'     => __( '&nbsp;<button class="button button-primary"><a id="submit" style="color:#FFF;">Save</a></button>', 'woo-wco' ),
 			//'desc'     => __( '&nbps;<button class="button button-primary"><a id="submit" style="color:#FFF;">Add Row</a></button><hr style="float:left;width:90%;border: 1px solid #000;margin-top: 35px;margin-bottom:15px;">', 'woo-wco' ),
 			//'placeholder' => 'center top',
-			'css'    => 'max-width:70px;width:100%; text-align:center;',
+			'css'    => 'max-width: 70px;width: 100%;text-align: center; display: inline-block!important;',
 			'options' => __( $nums, 'woo-wco')
 		);
 
