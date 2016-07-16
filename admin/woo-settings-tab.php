@@ -370,6 +370,7 @@ class WC_Settings_Tab_wco {
 				'class'    => ''
 			);
 
+
 			$settings_wco[] = array(
 				'name'     => __( 'Background Repeat', 'woo-wco' ),
 				'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-wco' ),
