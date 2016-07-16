@@ -1,20 +1,20 @@
 <?php
 defined( 'ABSPATH' ) or die( 'Plugin file cannot be accessed directly.' );
-class WC_Settings_Tab_wos {
+class WC_Settings_Tab_wco {
     /**
      * Bootstraps the class and hooks required actions & filters.
      *
      */
     public static function init() {
         add_filter( 'woocommerce_settings_tabs_array', __CLASS__ . '::add_settings_tab', 50 );
-        add_action( 'woocommerce_settings_tabs_settings_tab_wos', __CLASS__ . '::settings_tab' );
-        add_action( 'woocommerce_update_options_settings_tab_wos', __CLASS__ . '::update_settings' );
-        add_action( 'woocommerce_settings_tabs_settings_tab_wos', __CLASS__ . '::submit_button' );
+        add_action( 'woocommerce_settings_tabs_settings_tab_wco', __CLASS__ . '::settings_tab' );
+        add_action( 'woocommerce_update_options_settings_tab_wco', __CLASS__ . '::update_settings' );
+        add_action( 'woocommerce_settings_tabs_settings_tab_wco', __CLASS__ . '::submit_button' );
     }
 
     public static function submit_button() {
     	echo '<hr>';
-		submit_button( 'Reset Settings', 'delete button-secondary', 'reset_wos_options' );
+		submit_button( 'Reset Settings', 'delete button-secondary', 'reset_wco_options' );
 
     }
     
@@ -26,7 +26,7 @@ class WC_Settings_Tab_wos {
      * @return array $settings_tabs Array of WooCommerce setting tabs & their labels, including the Subscription tab.
      */
     public static function add_settings_tab( $settings_tabs ) {
-        $settings_tabs['settings_tab_wos'] = __( 'Custom Overlays', 'woo-outofstock' );
+        $settings_tabs['settings_tab_wco'] = __( 'Custom Overlays', 'woo-wco' );
         return $settings_tabs;
     }
     /**
@@ -56,41 +56,41 @@ class WC_Settings_Tab_wos {
     public static function get_settings() {
         
 
-		if (isset($_REQUEST['reset_wos_options'])) {
+		if (isset($_REQUEST['reset_wco_options'])) {
 			$arr_2 = array();
-		$rows = get_option('outofstock_2_max_rows');
+		$rows = get_option('wco_2_max_rows');
 		for ($k=0; $k<$rows; $k++) {
 			array_push($arr_2,  array('id'=>$k,
-								   'option' => 'outofstock_2_background_color_'.$k,
-								   'value'=> get_option('outofstock_2_background_color_'.$k)));
+								   'option' => 'wco_2_background_color_'.$k,
+								   'value'=> get_option('wco_2_background_color_'.$k)));
 
 			array_push($arr_2,  array('id'=>$k,
-								   'option' => 'outofstock_2_background_position_'.$k,
-								   'value'=> get_option('outofstock_2_background_position_'.$k)));
+								   'option' => 'wco_2_background_position_'.$k,
+								   'value'=> get_option('wco_2_background_position_'.$k)));
 					array_push($arr_2,  array('id'=>$k,
-								   'option' => 'outofstock_2_background_repeat_'.$k,
-								   'value'=> get_option('outofstock_2_background_repeat_'.$k)));
+								   'option' => 'wco_2_background_repeat_'.$k,
+								   'value'=> get_option('wco_2_background_repeat_'.$k)));
 			array_push($arr_2,  array('id'=>$k,
-								   'option' => 'outofstock_2_background_size_'.$k,
-								   'value'=> get_option('outofstock_2_background_size_'.$k)));
+								   'option' => 'wco_2_background_size_'.$k,
+								   'value'=> get_option('wco_2_background_size_'.$k)));
 
 			array_push($arr_2,  array('id'=>$k,
-								   'option' => 'outofstock_2_image_opacity_'.$k,
-								   'value'=> get_option('outofstock_2_image_opacity_'.$k)));
+								   'option' => 'wco_2_image_opacity_'.$k,
+								   'value'=> get_option('wco_2_image_opacity_'.$k)));
 			array_push($arr_2,  array('id'=>$k,
-								   'option' => 'outofstock_2_image_url_'.$k,
-								   'value'=> get_option('outofstock_2_image_url_'.$k)));
+								   'option' => 'wco_2_image_url_'.$k,
+								   'value'=> get_option('wco_2_image_url_'.$k)));
 
 			array_push($arr_2,  array('id'=>$k,
-								   'option' => 'outofstock_2_selector_'.$k,
-								   'value'=> get_option('outofstock_2_selector_'.$k)));
+								   'option' => 'wco_2_selector_'.$k,
+								   'value'=> get_option('wco_2_selector_'.$k)));
 
-			$aaa = get_option('outofstock_2_classes');
-			$var = get_option('outofstock_2_selector_'.$k);
+			$aaa = get_option('wco_2_classes');
+			$var = get_option('wco_2_selector_'.$k);
 			$cla = $aaa[intval($var)];
 
 			array_push($arr_2,  array('id'=>$k,
-								   'option' => 'outofstock_2_class_'.$k,
+								   'option' => 'wco_2_class_'.$k,
 								   'value'=> $cla));
 
 		
@@ -106,16 +106,16 @@ class WC_Settings_Tab_wos {
 
 			delete_option($option);
 		}
-		delete_option('outofstock_2_classes');
-		delete_option('outofstock_2_license_key');
-		delete_option('outofstock_2_rows');
-		delete_option('outofstock_2_max_rows');
-		delete_option('outofstock_sec');
+		delete_option('wco_2_classes');
+		delete_option('wco_2_license_key');
+		delete_option('wco_2_rows');
+		delete_option('wco_2_max_rows');
+		delete_option('wco_sec');
 		
 	}
 		
-		$settings_outofstock = array();
-		echo '<div class="wos-top">';
+		$settings_wco = array();
+		echo '<div class="wco-top">';
 
 		$p = plugins_url('assets/', dirname(__FILE__));
 		$arr = array();
@@ -125,7 +125,7 @@ class WC_Settings_Tab_wos {
 		$classes = array();
 		$native_classes = array(
 			'has-post-thumbnail','downloadable','virtual','shipping-taxable',
-			'purchasable','product-type-variable','has-children','instock','outofstock'
+			'purchasable','product-type-variable','has-children','instock','wco'
 		);
 		array_push($arr, 'banner-diagnoal.png');
 		array_push($arr, 'sign-pin.png');
@@ -145,14 +145,14 @@ class WC_Settings_Tab_wos {
 		}*/
 
 		$rows = 0; $max = 0;
-		$rows = get_option('outofstock_2_rows');
-		$max = get_option('outofstock_2_max_rows');
-		$sec = get_option('outofstock_sec');
+		$rows = get_option('wco_2_rows');
+		$max = get_option('wco_2_max_rows');
+		$sec = get_option('wco_sec');
 		
 		if ($max == 0) {
-			update_option('outofstock_2_max_rows', $rows);
+			update_option('wco_2_max_rows', $rows);
 		} elseif ($rows > $max ) {
-			update_option('outofstock_2_max_rows', $rows);
+			update_option('wco_2_max_rows', $rows);
 		//} else {
 		}
 		//var_dump($rows);
@@ -245,74 +245,74 @@ class WC_Settings_Tab_wos {
 
 		//set_option('')
 		//var_dump($classes);
-		update_option( 'outofstock_2_classes', $classes );
+		update_option( 'wco_2_classes', $classes );
 		$c = get_option('selector_classes');
 		//var_dump($c);
 		//echo $c[1];
 
 		//var_dump($posts);
-		//$arr = array('instock','outofstock');
+		//$arr = array('instock','wco');
 
 		// Add Title to the Settings
-		$settings_outofstock[] = array( 'name' => __( 'Woocommerce Custom Overlays', 'woo-outofstock' ), 'type' => 'title', 'desc' => __( 'The following options are used to configure Woocommerce Custom Overlays', 'woo-outofstock' ), 'id' => '' );
+		$settings_wco[] = array( 'name' => __( 'Woocommerce Custom Overlays', 'woo-wco' ), 'type' => 'title', 'desc' => __( 'The following options are used to configure Woocommerce Custom Overlays', 'woo-wco' ), 'id' => '' );
 		// Add first checkbox option
-		/*$settings_outofstock[] = array(
-			'name'     => __( 'Disable Overlay', 'woo-outofstock' ),
-			'desc_tip' => __( '', 'woo-outofstock' ),
-			'id'       => 'disable_outofstock_2_overlay',
+		/*$settings_wco[] = array(
+			'name'     => __( 'Disable Overlay', 'woo-wco' ),
+			'desc_tip' => __( '', 'woo-wco' ),
+			'id'       => 'disable_wco_2_overlay',
 			'type'     => 'checkbox',
 			//'css'      => 'min-width:300px;',
-			'desc'     => __( '<small>&nbsp;Check this to <b>DISABLE</b> the out of stock overlay</small>', 'woo-outofstock' )
+			'desc'     => __( '<small>&nbsp;Check this to <b>DISABLE</b> the out of stock overlay</small>', 'woo-wco' )
 		);*/
 		// Add second text field option
-		$settings_outofstock[] = array(
-			'name'     => __( 'License Key', 'woo-outofstock' ),
-			//'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-outofstock' ),
-			'id'       => 'outofstock_2_license_key',
+		$settings_wco[] = array(
+			'name'     => __( 'License Key', 'woo-wco' ),
+			//'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-wco' ),
+			'id'       => 'wco_2_license_key',
 			'type'     => 'text',
-			'desc'     => __( '&nbsp;<button class="button button-primary"><a id="submit" style="color:#FFF;">Save</a></button>', 'woo-outofstock' ),
+			'desc'     => __( '&nbsp;<button class="button button-primary"><a id="submit" style="color:#FFF;">Save</a></button>', 'woo-wco' ),
 			//'placeholder' => 'center top',
 			'css'    => 'max-width:500px; width:550px;'
 		);
 
 
 
-		$settings_outofstock[] = array(
-			'name'     => __( 'No. of Rows', 'woo-outofstock' ),
-			'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-outofstock' ),
-			'id'       => 'outofstock_2_rows',
+		$settings_wco[] = array(
+			'name'     => __( 'No. of Rows', 'woo-wco' ),
+			'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-wco' ),
+			'id'       => 'wco_2_rows',
 			'type'     => 'select',
 			'class'    => 'wc-enhanced-select',
 			'default' => 0,
-			'desc'     => __( '&nbsp;', 'woo-outofstock' ),
-			//'desc'     => __( '&nbps;<button class="button button-primary"><a id="submit" style="color:#FFF;">Add Row</a></button><hr style="float:left;width:90%;border: 1px solid #000;margin-top: 35px;margin-bottom:15px;">', 'woo-outofstock' ),
+			'desc'     => __( '&nbsp;', 'woo-wco' ),
+			//'desc'     => __( '&nbps;<button class="button button-primary"><a id="submit" style="color:#FFF;">Add Row</a></button><hr style="float:left;width:90%;border: 1px solid #000;margin-top: 35px;margin-bottom:15px;">', 'woo-wco' ),
 			//'placeholder' => 'center top',
 			'css'    => 'max-width:70px;width:100%; text-align:center;',
-			'options' => __( $nums, 'woo-outofstock')
+			'options' => __( $nums, 'woo-wco')
 		);
 
-		$settings_outofstock[] = array(
-			'name'     => __( 'Max Rows', 'woo-outofstock' ),
-			//'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-outofstock' ),
-			'id'       => 'outofstock_2_max_rows',
+		$settings_wco[] = array(
+			'name'     => __( 'Max Rows', 'woo-wco' ),
+			//'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-wco' ),
+			'id'       => 'wco_2_max_rows',
 			'type'     => 'hidden',
 			//'class'    => 'wc-enhanced-select',
 			'default' => 0,
-			'desc'     => __( '&nbsp;', 'woo-outofstock' )
-			//'desc'     => __( '&nbps;<button class="button button-primary"><a id="submit" style="color:#FFF;">Add Row</a></button><hr style="float:left;width:90%;border: 1px solid #000;margin-top: 35px;margin-bottom:15px;">', 'woo-outofstock' ),
+			'desc'     => __( '&nbsp;', 'woo-wco' )
+			//'desc'     => __( '&nbps;<button class="button button-primary"><a id="submit" style="color:#FFF;">Add Row</a></button><hr style="float:left;width:90%;border: 1px solid #000;margin-top: 35px;margin-bottom:15px;">', 'woo-wco' ),
 			//'placeholder' => 'center top',
 			//'css'    => 'max-width:70px;width:100%; text-align:center;',
-			//'options' => __( $nums, 'woo-outofstock')
+			//'options' => __( $nums, 'woo-wco')
 		);
 
-		//$settings_outofstock[] = array(submit_button("Save"));
+		//$settings_wco[] = array(submit_button("Save"));
 
-		$settings_outofstock[] = array(
-			'name'     => __( 'Woo Secs', 'woo-outofstock' ),
-			'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-outofstock' ),
-			'id'       => 'outofstock_sec',
+		$settings_wco[] = array(
+			'name'     => __( 'Woo Secs', 'woo-wco' ),
+			'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-wco' ),
+			'id'       => 'wco_sec',
 			'type'     => 'hidden',
-			'desc'     => __( '', 'woo-outofstock' ),
+			'desc'     => __( '', 'woo-wco' ),
 			'placeholder' => '',
 			'class'    => ''
 		);
@@ -323,11 +323,11 @@ class WC_Settings_Tab_wos {
 			for ($i = 0; $i < $rows; $i++) {
 				//echo '<hr>';
 
-			$settings_outofstock[] = array(
+			$settings_wco[] = array(
 				'title'    => __( 'Selector Class', 'woocommerce' ),
 				'desc'     => __( 'This option lets you limit which countries you are willing to sell to.', 'woocommerce' ),
-				'id'       => 'outofstock_2_selector_'.$i,
-				'default'  => __('', 'woo-outofstock'),
+				'id'       => 'wco_2_selector_'.$i,
+				'default'  => __('', 'woo-wco'),
 				'type'     => 'select',
 				'class'    => 'wc-enhanced-select',
 				'css'      => 'min-width: 350px;',
@@ -335,59 +335,59 @@ class WC_Settings_Tab_wos {
 				//'options'  => array(
 				//	'opt_'.$i      => __( $arr[$i], 'woocommerce' ),
 				//)
-				'options' => __( $classes, 'woo-outofstock')
+				'options' => __( $classes, 'woo-wco')
 			);
-			/*$settings_outofstock[] = array(
-				'name'     => __( 'Backgroound Size', 'woo-outofstock' ),
-				'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-outofstock' ),
-				'id'       => 'outofstock_2_background_size_'.$i,
+			/*$settings_wco[] = array(
+				'name'     => __( 'Backgroound Size', 'woo-wco' ),
+				'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-wco' ),
+				'id'       => 'wco_2_background_size_'.$i,
 				'type'     => 'text',
-				'desc'     => __( '', 'woo-outofstock' ),
+				'desc'     => __( '', 'woo-wco' ),
 				'placeholder' => '100% 100%',
 				'default' => '100% 100%',
 				'class'    => ''
 			);*/
 
 
-			$settings_outofstock[] = array(
-				'name'     => __( 'Background Position', 'woo-outofstock' ),
-				'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-outofstock' ),
-				'id'       => 'outofstock_2_background_position_'.$i,
+			$settings_wco[] = array(
+				'name'     => __( 'Background Position', 'woo-wco' ),
+				'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-wco' ),
+				'id'       => 'wco_2_background_position_'.$i,
 				'type'     => 'text',
-				'desc'     => __( '', 'woo-outofstock' ),
+				'desc'     => __( '', 'woo-wco' ),
 				'placeholder' => 'center top',
 				'default' => 'center top',
 				'class'    => ''
 			);
-			$settings_outofstock[] = array(
-				'name'     => __( 'Background Color', 'woo-outofstock' ),
-				'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-outofstock' ),
-				'id'       => 'outofstock_2_background_color_'.$i,
+			$settings_wco[] = array(
+				'name'     => __( 'Background Color', 'woo-wco' ),
+				'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-wco' ),
+				'id'       => 'wco_2_background_color_'.$i,
 				'type'     => 'text',
-				'desc'     => __( '', 'woo-outofstock' ),
+				'desc'     => __( '', 'woo-wco' ),
 				'default' => 'transparent',
 				'class'    => ''
 			);
 
-			$settings_outofstock[] = array(
-				'name'     => __( 'Background Repeat', 'woo-outofstock' ),
-				'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-outofstock' ),
-				'id'       => 'outofstock_2_background_repeat_'.$i,
+			$settings_wco[] = array(
+				'name'     => __( 'Background Repeat', 'woo-wco' ),
+				'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-wco' ),
+				'id'       => 'wco_2_background_repeat_'.$i,
 				'type'     => 'text',
 				//'default' => 'no-repeat',
 				'autoload' => false,
-				///'desc'     => __( '', 'woo-outofstock' ),
+				///'desc'     => __( '', 'woo-wco' ),
 				'placeholder' => 'no-repeat',
 				'default' => 'no-repeat',
 				'class'    => ''
 			);
 
-			$settings_outofstock[] = array(
-				'name'     => __( 'Image Opacity', 'woo-outofstock' ),
-				'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-outofstock' ),
-				'id'       => 'outofstock_2_image_opacity_'.$i,
+			$settings_wco[] = array(
+				'name'     => __( 'Image Opacity', 'woo-wco' ),
+				'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-wco' ),
+				'id'       => 'wco_2_image_opacity_'.$i,
 				'type'     => 'text',
-				'desc'     => __( '', 'woo-outofstock' ),
+				'desc'     => __( '', 'woo-wco' ),
 				'placeholder' => '.8',
 				'default' => '.8',
 				'class'    => ''
@@ -395,24 +395,24 @@ class WC_Settings_Tab_wos {
 			
 
 			
-			$settings_outofstock[] = array(
-				'name'     => __( 'Overlay Image URL', 'woo-outofstock' ),
-				'desc_tip' => __( 'This will be the URL of the image you are using for the Out of Stock overlay. Make sure it is a <b>PNG</b>', 'woo-outofstock' ),
-				'id'       => 'outofstock_2_image_url_'.$i,
+			$settings_wco[] = array(
+				'name'     => __( 'Overlay Image URL', 'woo-wco' ),
+				'desc_tip' => __( 'This will be the URL of the image you are using for the Out of Stock overlay. Make sure it is a <b>PNG</b>', 'woo-wco' ),
+				'id'       => 'wco_2_image_url_'.$i,
 				'default' => plugins_url('assets/sign-pin.png', dirname(__FILE__)),
 				'type'     => 'text',
-				'desc'     => __( '&nbsp;Make sure your image is a <b>PNG!</b><br><hr style="float:left;width:90%;border: 1px dotted #CCC;margin-top: 35px;margin-bottom:15px;">', 'woo-outofstock' ),
+				'desc'     => __( '&nbsp;Make sure your image is a <b>PNG!</b><br><hr style="float:left;width:90%;border: 1px dotted #CCC;margin-top: 35px;margin-bottom:15px;">', 'woo-wco' ),
 				'class'    => 'overlay-input',
 				'css' => 'max-width:700px;width:100%;'
 			);
 
-			/*$settings_outofstock[] = array(
-				//'name'     => __( 'Overlay Image URL', 'woo-outofstock' ),
-				//'desc_tip' => __( 'This will be the URL of the image you are using for the Out of Stock overlay. Make sure it is a <b>PNG</b>', 'woo-outofstock' ),
+			/*$settings_wco[] = array(
+				//'name'     => __( 'Overlay Image URL', 'woo-wco' ),
+				//'desc_tip' => __( 'This will be the URL of the image you are using for the Out of Stock overlay. Make sure it is a <b>PNG</b>', 'woo-wco' ),
 				//'id'       => ''.$i,
 				//'default' => plugins_url('assets/sign-pin.png', dirname(__FILE__)),
 				'type'     => 'text',
-				'desc'     => __( '&nbsp;<button class="button button-primary wos-block"><a id="submit" style="color:#FFF;">Save</a></button><hr style="float:left;width:90%;border: 1px dotted #CCC;margin-top: 35px;margin-bottom:15px;">', 'woo-outofstock' ),
+				'desc'     => __( '&nbsp;<button class="button button-primary wco-block"><a id="submit" style="color:#FFF;">Save</a></button><hr style="float:left;width:90%;border: 1px dotted #CCC;margin-top: 35px;margin-bottom:15px;">', 'woo-wco' ),
 				'class'    => 'overlay-input',
 				'css' => 'display:none;'
 			);*/
@@ -420,16 +420,16 @@ class WC_Settings_Tab_wos {
 			//echo '<br><hr><br>';
 		}
 		endif;
-		$settings_outofstock[] = array( 'type' => 'sectionend', 'id' => 'outofstock_2' );
+		$settings_wco[] = array( 'type' => 'sectionend', 'id' => 'wco_2' );
 		
 	
 		
-    	//echo '<p class="submit wos-submit">';
-    	//submit_button( 'Reset All', 'delete button-secondary', 'wos-delete', false, $other_attributes );
-		return $settings_outofstock;
-        //return apply_filters( 'wc_settings_tab_wos_settings', $settings_outofstock );
+    	//echo '<p class="submit wco-submit">';
+    	//submit_button( 'Reset All', 'delete button-secondary', 'wco-delete', false, $other_attributes );
+		return $settings_wco;
+        //return apply_filters( 'wc_settings_tab_wco_settings', $settings_wco );
         echo '</div">';
        
     }
 }
-WC_Settings_Tab_wos::init();
+WC_Settings_Tab_wco::init();

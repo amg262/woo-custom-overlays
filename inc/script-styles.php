@@ -4,11 +4,11 @@ defined( 'ABSPATH' ) or die( 'Plugin file cannot be accessed directly.' );
 /**
 * Script styles to run jQuery on pages
 */
-add_action( 'wp_enqueue_scripts', 'outofstock_setup_scripts' );
-add_action('wp_enqueue_scripts','outofstock_scripts',1);
+add_action( 'wp_enqueue_scripts', 'wco_setup_scripts' );
+add_action('wp_enqueue_scripts','wco_scripts',1);
 //add_action( 'wp_enqueue_scripts', 'oss_styles' );
 
-function outofstock_setup_scripts() {
+function wco_setup_scripts() {
 	wp_enqueue_script( 'jquery' );
 	wp_enqueue_script( 'jquery-ui-core' );
 }
@@ -18,9 +18,9 @@ function outofstock_setup_scripts() {
 	*/
 	
 
-function outofstock_scripts() { ?>
+function wco_scripts() { ?>
 
-<?php $rows = get_option('outofstock_2_rows'); ?>
+<?php $rows = get_option('wco_2_rows'); ?>
 
 <?php //if ( isset( $rows ) ) { ?>
 
@@ -28,44 +28,44 @@ function outofstock_scripts() { ?>
 	global $arr_2;
 	$arr = array();
 	$arr_2 = array();
-	$set = array('outofstock_2_background_color_', 'outofstock_2_background_position_',
-		'outofstock_2_background_repeat_','outofstock_2_background_size_', 'outofstock_2_image_opacity_',
-		'outofstock_2_image_url_','outofstock_2_selector_');
+	$set = array('wco_2_background_color_', 'wco_2_background_position_',
+		'wco_2_background_repeat_','wco_2_background_size_', 'wco_2_image_opacity_',
+		'wco_2_image_url_','wco_2_selector_');
 		$i = 0;
 		$l = 1;
 
 		for ($k=0; $k<$rows; $k++) {
 			array_push($arr_2,  array('id'=>$k,
-								   'option' => 'outofstock_2_background_color_'.$k,
-								   'value'=> get_option('outofstock_2_background_color_'.$k)));
+								   'option' => 'wco_2_background_color_'.$k,
+								   'value'=> get_option('wco_2_background_color_'.$k)));
 
 			array_push($arr_2,  array('id'=>$k,
-								   'option' => 'outofstock_2_background_position_'.$k,
-								   'value'=> get_option('outofstock_2_background_position_'.$k)));
+								   'option' => 'wco_2_background_position_'.$k,
+								   'value'=> get_option('wco_2_background_position_'.$k)));
 					array_push($arr_2,  array('id'=>$k,
-								   'option' => 'outofstock_2_background_repeat_'.$k,
-								   'value'=> get_option('outofstock_2_background_repeat_'.$k)));
+								   'option' => 'wco_2_background_repeat_'.$k,
+								   'value'=> get_option('wco_2_background_repeat_'.$k)));
 			/*array_push($arr_2,  array('id'=>$k,
-								   'option' => 'outofstock_2_background_size_'.$k,
-								   'value'=> get_option('outofstock_2_background_size_'.$k)));*/
+								   'option' => 'wco_2_background_size_'.$k,
+								   'value'=> get_option('wco_2_background_size_'.$k)));*/
 	
 			array_push($arr_2,  array('id'=>$k,
-								   'option' => 'outofstock_2_image_opacity_'.$k,
-								   'value'=> get_option('outofstock_2_image_opacity_'.$k)));
+								   'option' => 'wco_2_image_opacity_'.$k,
+								   'value'=> get_option('wco_2_image_opacity_'.$k)));
 			array_push($arr_2,  array('id'=>$k,
-								   'option' => 'outofstock_2_image_url_'.$k,
-								   'value'=> get_option('outofstock_2_image_url_'.$k)));
+								   'option' => 'wco_2_image_url_'.$k,
+								   'value'=> get_option('wco_2_image_url_'.$k)));
 
 			array_push($arr_2,  array('id'=>$k,
-								   'option' => 'outofstock_2_selector_'.$k,
-								   'value'=> get_option('outofstock_2_selector_'.$k)));
+								   'option' => 'wco_2_selector_'.$k,
+								   'value'=> get_option('wco_2_selector_'.$k)));
 
-			$aaa = get_option('outofstock_2_classes');
-			$var = get_option('outofstock_2_selector_'.$k);
+			$aaa = get_option('wco_2_classes');
+			$var = get_option('wco_2_selector_'.$k);
 			$cla = $aaa[intval($var)];
 
 			array_push($arr_2,  array('id'=>$k,
-								   'option' => 'outofstock_2_class_'.$k,
+								   'option' => 'wco_2_class_'.$k,
 								   'value'=> $cla));
 
 	
@@ -117,28 +117,28 @@ function outofstock_scripts() { ?>
 
 	
 
-		if ( $option ===  'outofstock_2_background_color_'.$id ) {
+		if ( $option ===  'wco_2_background_color_'.$id ) {
 			$color = $value; var_dump($color);
 		}
-		if ( $option ===  'outofstock_2_background_position_'.$id ) {
+		if ( $option ===  'wco_2_background_position_'.$id ) {
 			$position = $value;
 		}
-		if ( $option ===  'outofstock_2_background_repeat_'.$id ) {
+		if ( $option ===  'wco_2_background_repeat_'.$id ) {
 			$repeat = $value;
 		}
-		/*if ( $option ===  'outofstock_2_background_size_'.$id ) {
+		/*if ( $option ===  'wco_2_background_size_'.$id ) {
 			$size = $value;
 		}*/
-		if ( $option ===  'outofstock_2_image_opacity_'.$id ) {
+		if ( $option ===  'wco_2_image_opacity_'.$id ) {
 			$opacity = $value;
 		}
-		if ( $option ===  'outofstock_2_image_url_'.$id ) {
+		if ( $option ===  'wco_2_image_url_'.$id ) {
 			$url = esc_url($value);
 		}
-		if ( $option ===  'outofstock_2_selector_'.$id ) {
+		if ( $option ===  'wco_2_selector_'.$id ) {
 			$selector = $value;
 		}
-		if ( $option ===  'outofstock_2_class_'.$id ) {
+		if ( $option ===  'wco_2_class_'.$id ) {
 			$class = '.'.$value.' ';
 		}
 			//var_dump($i);

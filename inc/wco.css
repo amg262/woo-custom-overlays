@@ -11,20 +11,20 @@
 	background: none !important;
 }
 
-.wos-block {
+.wco-block {
 	display: block !important;
 }
 
-.submit.wos-submit {
+.submit.wco-submit {
 	display: inline-block;
     float: left;
     /* margin: auto; */
     margin: 15px 10px 15px 0;
 }
-#wos-save {
+#wco-save {
 	margin:20px 10px 20px 0;
 }
-#wos-delete {
+#wco-delete {
 	margin:20px 0 20px 5px;
 
 }
