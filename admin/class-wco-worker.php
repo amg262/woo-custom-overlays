@@ -91,7 +91,7 @@ class WCO_Worker {
 		$args = array(
 			'taxonomy'   => 'product_cat',
 			'orderby'    => 'name',
-			'hide_empty' => true,
+			//'hide_empty' => true,
 		);
 
 		$this->product_cats = get_terms( 'product_cat', $args );
