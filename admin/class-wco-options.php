@@ -1,6 +1,9 @@
 <?php
+namespace WooImageOverlay;
+
 defined( 'ABSPATH' ) or die( 'Plugin file cannot be accessed directly.' );
-class WC_Settings_Tab_wco {
+
+class WCO_Settings_Tab {
     /**
      * Bootstraps the class and hooks required actions & filters.
      *
@@ -10,10 +13,17 @@ class WC_Settings_Tab_wco {
         add_action( 'woocommerce_settings_tabs_settings_tab_wco', __CLASS__ . '::settings_tab' );
         add_action( 'woocommerce_update_options_settings_tab_wco', __CLASS__ . '::update_settings' );
         add_action( 'woocommerce_settings_tabs_settings_tab_wco', __CLASS__ . '::submit_button' );
+        include __DIR__ . '/class-wco-settings.php';
+        $set = new WCO_Settings();
+        //$set->init();
     }
 
     public static function submit_button() {
     	echo '<hr>';
+
+	    /*echo '<p>
+                <button class="button secondary">Generate</button>
+            </p>';*/
 		//submit_button( 'Reset Settings', 'delete button-secondary', 'reset_wco_options' );
 
     }
@@ -26,7 +36,7 @@ class WC_Settings_Tab_wco {
      * @return array $settings_tabs Array of WooCommerce setting tabs & their labels, including the Subscription tab.
      */
     public static function add_settings_tab( $settings_tabs ) {
-        $settings_tabs['settings_tab_wco'] = __( 'Custom Overlays', 'woo-wco' );
+        $settings_tabs['settings_tab_wco'] = __( 'Image Overlay', 'woo-wco' );
         return $settings_tabs;
     }
     /**
@@ -54,7 +64,8 @@ class WC_Settings_Tab_wco {
      * @return array Array of settings for @see woocommerce_admin_fields() function.
      */
     public static function get_settings() {
-        
+
+
 
 		if (isset($_REQUEST['reset_wco_options'])) {
 			$arr_2 = array();
@@ -116,8 +127,12 @@ class WC_Settings_Tab_wco {
 		
 		$settings_wco = array();
 		echo '<div class="wco-top">';
+	    echo '<div>
+				<a href="#" class="button">Button</a>
+                <a class="button secondary">Generate</a>
+            </div>';
 
-		$p = plugins_url('assets/', dirname(__FILE__));
+		$p = plugins_url('assets/', __DIR__);
 		$arr = array();
 		$sel = array();
 		$nums = array();
@@ -125,7 +140,7 @@ class WC_Settings_Tab_wco {
 		$classes = array();
 		$native_classes = array(
 			'has-post-thumbnail','downloadable','virtual','shipping-taxable',
-			'purchasable','product-type-variable','has-children','instock','outofstock'
+			'purchasable','product-type-variable','product-type-simple','has-children','instock','outofstock'
 		);
 		array_push($arr, 'banner-diagnoal.png');
 		array_push($arr, 'sign-pin.png');
@@ -254,7 +269,7 @@ class WC_Settings_Tab_wco {
 		//$arr = array('instock','wco');
 
 		// Add Title to the Settings
-		$settings_wco[] = array( 'name' => __( 'Woocommerce Custom Overlays', 'woo-wco' ), 'type' => 'title', 'desc' => __( 'The following options are used to configure Woocommerce Custom Overlays', 'woo-wco' ), 'id' => '' );
+		$settings_wco[] = array( 'name' => __( 'Woocommerce Image Overlays', 'woo-wco' ), 'type' => 'title', 'desc' => __( 'The following options are used to configure Woocommerce Custom Overlays', 'woo-wco' ), 'id' => '' );
 		// Add first checkbox option
 		/*$settings_wco[] = array(
 			'name'     => __( 'Disable Overlay', 'woo-wco' ),
@@ -265,13 +280,13 @@ class WC_Settings_Tab_wco {
 			'desc'     => __( '<small>&nbsp;Check this to <b>DISABLE</b> the out of stock overlay</small>', 'woo-wco' )
 		);*/
 		// Add second text field option
-		echo '<h3>To create a overlays, choose the number of total rows, or seperate overlay images and click save. ';
+		//echo '<h3>To create a overlays, choose the number of total rows, or seperate overlay images and click save. ';
 		$settings_wco[] = array(
 			'name'     => __( 'License Key', 'woo-wco' ),
 			//'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-wco' ),
 			'id'       => 'wco_2_license_key',
 			'type'     => 'text',
-			'desc'     => __( '&nbsp;<button class="button button-primary"><a id="submit" style="color:#FFF;">Save</a></button>', 'woo-wco' ),
+			'desc'     => __( '&nbsp;<button class="button button-primary"><a id="" style="color:#FFF;">Save</a></button>', 'woo-wco' ),
 			//'placeholder' => 'center top',
 			'css'    => 'max-width:500px; width:550px;'
 		);
@@ -317,6 +332,11 @@ class WC_Settings_Tab_wco {
 			'placeholder' => '',
 			'class'    => ''
 		);
+
+	    echo '<div>
+				<a href="#" class="button">Button</a>
+                <a class="button secondary">Generate</a>
+            </div>';
 	
 
 		if ($rows > 0):
@@ -401,7 +421,7 @@ class WC_Settings_Tab_wco {
 				'name'     => __( 'Overlay Image URL', 'woo-wco' ),
 				'desc_tip' => __( 'This will be the URL of the image you are using for the Out of Stock overlay. Make sure it is a <b>PNG</b>', 'woo-wco' ),
 				'id'       => 'wco_2_image_url_'.$i,
-				'default' => plugins_url('assets/sign-pin.png', dirname(__FILE__)),
+				'default' => plugins_url('assets/sign-pin.png', __DIR__),
 				'type'     => 'text',
 				'desc'     => __( '&nbsp;Make sure your image is a <b>PNG!</b><br><hr style="float:left;width:90%;border: 1px dotted #CCC;margin-top: 35px;margin-bottom:15px;">', 'woo-wco' ),
 				'class'    => 'overlay-input',
@@ -434,4 +454,4 @@ class WC_Settings_Tab_wco {
        
     }
 }
-WC_Settings_Tab_wco::init();
+WCO_Settings_Tab::init();
