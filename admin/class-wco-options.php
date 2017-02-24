@@ -4,6 +4,8 @@ namespace WooImageOverlay;
 defined( 'ABSPATH' ) or die( 'Plugin file cannot be accessed directly.' );
 
 class WCO_Settings_Tab {
+
+
     /**
      * Bootstraps the class and hooks required actions & filters.
      *
@@ -13,8 +15,7 @@ class WCO_Settings_Tab {
         add_action( 'woocommerce_settings_tabs_settings_tab_wco', __CLASS__ . '::settings_tab' );
         add_action( 'woocommerce_update_options_settings_tab_wco', __CLASS__ . '::update_settings' );
         add_action( 'woocommerce_settings_tabs_settings_tab_wco', __CLASS__ . '::submit_button' );
-        include __DIR__ . '/class-wco-settings.php';
-        $set = new WCO_Settings();
+
         //$set->init();
     }
 
@@ -64,67 +65,9 @@ class WCO_Settings_Tab {
      * @return array Array of settings for @see woocommerce_admin_fields() function.
      */
     public static function get_settings() {
+	    include_once __DIR__ . '/class-wco-settings.php';
+	    $settings = new WCO_Settings();
 
-
-
-		if (isset($_REQUEST['reset_wco_options'])) {
-			$arr_2 = array();
-		$rows = get_option('wco_2_max_rows');
-		for ($k=0; $k<$rows; $k++) {
-			array_push($arr_2,  array('id'=>$k,
-								   'option' => 'wco_2_background_color_'.$k,
-								   'value'=> get_option('wco_2_background_color_'.$k)));
-
-			array_push($arr_2,  array('id'=>$k,
-								   'option' => 'wco_2_background_position_'.$k,
-								   'value'=> get_option('wco_2_background_position_'.$k)));
-					array_push($arr_2,  array('id'=>$k,
-								   'option' => 'wco_2_background_repeat_'.$k,
-								   'value'=> get_option('wco_2_background_repeat_'.$k)));
-			array_push($arr_2,  array('id'=>$k,
-								   'option' => 'wco_2_background_size_'.$k,
-								   'value'=> get_option('wco_2_background_size_'.$k)));
-
-			array_push($arr_2,  array('id'=>$k,
-								   'option' => 'wco_2_image_opacity_'.$k,
-								   'value'=> get_option('wco_2_image_opacity_'.$k)));
-			array_push($arr_2,  array('id'=>$k,
-								   'option' => 'wco_2_image_url_'.$k,
-								   'value'=> get_option('wco_2_image_url_'.$k)));
-
-			array_push($arr_2,  array('id'=>$k,
-								   'option' => 'wco_2_selector_'.$k,
-								   'value'=> get_option('wco_2_selector_'.$k)));
-
-			$aaa = get_option('wco_2_classes');
-			$var = get_option('wco_2_selector_'.$k);
-			$cla = $aaa[intval($var)];
-
-			array_push($arr_2,  array('id'=>$k,
-								   'option' => 'wco_2_class_'.$k,
-								   'value'=> $cla));
-
-		
-
-		}
-
-		foreach ($arr_2 as $value) {//for ($p = 0; $p <= count($arr_2); $p++ ) {
-
-			$id = $value['id'];
-
-			$option = $value['option'];
-			$value = $value['value'];
-
-			delete_option($option);
-		}
-		delete_option('wco_2_classes');
-		delete_option('wco_2_license_key');
-		delete_option('wco_2_rows');
-		delete_option('wco_2_max_rows');
-		delete_option('wco_sec');
-		
-	}
-		
 		$settings_wco = array();
 		echo '<div class="wco-top">';
 	    echo '<div>
@@ -132,32 +75,7 @@ class WCO_Settings_Tab {
                 <a class="button secondary">Generate</a>
             </div>';
 
-		$p = plugins_url('assets/', __DIR__);
-		$arr = array();
-		$sel = array();
-		$nums = array();
 
-		$classes = array();
-		$native_classes = array(
-			'has-post-thumbnail','downloadable','virtual','shipping-taxable',
-			'purchasable','product-type-variable','product-type-simple','has-children','instock','outofstock'
-		);
-		array_push($arr, 'banner-diagnoal.png');
-		array_push($arr, 'sign-pin.png');
-		array_push($arr, 'sold-out-banner.png');
-		array_push($arr, 'sold-out-stamp.png');
-		array_push($arr, 'stamp-semi-diagonal.png');
-		array_push($arr, 'banner-diagnoal.png');
-
-		for ($i=0; $i<=10; $i++) {
-			array_push($nums, $i);
-		}
-		//var_dump($arr);
-
-		/*foreach ($arr as $var) {
-			$text = $p . $var;
-			echo '<br>'.$text;
-		}*/
 
 		$rows = 0; $max = 0;
 		$rows = get_option('wco_2_rows');
@@ -170,98 +88,8 @@ class WCO_Settings_Tab {
 			update_option('wco_2_max_rows', $rows);
 		//} else {
 		}
-		//var_dump($rows);
 
-		/*
-		* LOOP FOR GETTIGN ALL PRODUCT CATEGORIES
-		*/
-		$taxonomy     = 'product_cat';
-		$orderby      = 'name';  
-		$show_count   = 0;      // 1 for yes, 0 for no
-		$pad_counts   = 0;      // 1 for yes, 0 for no
-		$hierarchical = 1;      // 1 for yes, 0 for no  
-		$title        = '';  
-		$empty        = 0;
-
-		$args = array(
-		     'taxonomy'     => $taxonomy,
-		     'orderby'      => $orderby,
-		     'show_count'   => $show_count,
-		     'pad_counts'   => $pad_counts,
-		     'hierarchical' => $hierarchical,
-		     'title_li'     => $title,
-		     'hide_empty'   => $empty
-		);
-
-		$all_categories = get_categories( $args );
-
-		foreach ($all_categories as $cat) {
-
-			if($cat->category_parent == 0) {
-			    $category_id = $cat->term_id;
-			    array_push($sel, $cat->slug);
-			    //echo '<br /><a href="'. get_term_link($cat->slug, 'product_cat') .'">'. $cat->name .'</a>';
-
-			    $args2 = array(
-			            'taxonomy'     => $taxonomy,
-			            'child_of'     => 0,
-			            'parent'       => $category_id,
-			            'orderby'      => $orderby,
-			            'show_count'   => $show_count,
-			            'pad_counts'   => $pad_counts,
-			            'hierarchical' => $hierarchical,
-			            'title_li'     => $title,
-			            'hide_empty'   => $empty
-			    );
-			    $sub_cats = get_categories( $args2 );
-			    if($sub_cats) {
-			        foreach($sub_cats as $sub_category) {
-			            //echo   ;
-			            //array_push($sel, strtolower($sub_category->name));
-			            array_push($sel, $sub_category->slug);
-			        }   
-			    }
-			}       
-		}
-
-		/*
-		* LOOP FOR GETTIGN ALL PRODUCTS
-		*/
-		$args = array( 
-                'post_type' => 'product', 
-                'orderby' => 'id', 
-                'order' => 'ASC',
-                //'product_cat' => 'My Product Category',
-                'post_status' => 'publish');
-		$posts = query_posts($args);
-
-		foreach ($posts as $prod) {
-			array_push($sel, 'post-'.$prod->ID);
-		}
-
-		/**
-		* LOOP FOR ADDING NATIVE CLASSES
-		*/
-		foreach ($native_classes as $class) {
-			array_push($sel, $class);
-		}
-		//var_dump($sel);
-		/*
-		* LOOP FOR building all selecter classes for overlays
-		*/
-		$count = 0;
-		foreach ($sel as $class) {
-			//array_push($classes, array('id' => $count, 'value' => $class));
-			//array_push($classes, array('id' => $count, 'class' => $class));
-			array_push($classes, $class);
-			//'opt_'.$i      => __( $arr[$i], 'woocommerce' )
-			$count++;
-		}
-
-		//set_option('')
-		//var_dump($classes);
-		update_option( 'wco_2_classes', $classes );
-		$c = get_option('selector_classes');
+		var_dump( $settings->get_cache() );
 		//var_dump($c);
 		//echo $c[1];
 
