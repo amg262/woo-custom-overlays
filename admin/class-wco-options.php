@@ -197,7 +197,7 @@ class WCO_Settings_Tab {
 		$settings_wco[] = [
 			'name' => __( 'License Key', 'woo-wco' ),
 			//'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-wco' ),
-			'id'   => 'wco_license',
+			'id'   => 'wco_2_license',
 			'type' => 'text',
 			'desc' => __( '&nbsp;<button class="button button-primary"><a id="" style="color:#FFF;">Save</a></button>', 'woo-wco' ),
 			//'placeholder' => 'center top',
@@ -208,7 +208,7 @@ class WCO_Settings_Tab {
 		$settings_wco[] = [
 			'name'     => __( 'Rows', 'woo-wco' ),
 			'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-wco' ),
-			'id'       => 'wco_rows',
+			'id'       => 'wco_2_rows',
 			'type'     => 'number',
 			'default'  => 0,
 			'desc'     => __(
@@ -228,12 +228,6 @@ class WCO_Settings_Tab {
 
 
 		$val = '<input type="hidden" id="numrows" name="numrows" value="' . $rows . '" />';
-
-		echo '<div>' .
-		     $val . '
-				<a href="#" class="button">Button</a>
-                <a class="button secondary">Generate</a>
-            </div>';
 
 
 		if ( $rows > 0 ):
