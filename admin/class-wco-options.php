@@ -213,6 +213,20 @@ class WCO_Settings_Tab {
 				//echo '<hr>';
 
 				$settings_wco[] = [
+					'title'    => __( 'Grouping', 'woocommerce' ),
+					'desc'     => __( 'This option lets you limit which countries you are willing to sell to.', 'woocommerce' ),
+					'id'       => 'wco_itemgroup_' . $i,
+					//'default'  => 1,
+					'type'     => 'select',
+					'class'    => 'wc-enhanced-select',
+					'desc_tip' => true,
+					//'options'  => array(
+					//	'opt_'.$i      => __( $arr[$i], 'woocommerce' ),
+					//)
+					'options'  => __( [ 'Attributes', 'Products', 'Categories' ], 'woo-wco' ),
+				];
+
+				$settings_wco[] = [
 					'title'    => __( 'Selector Class', 'woocommerce' ),
 					'desc'     => __( 'This option lets you limit which countries you are willing to sell to.', 'woocommerce' ),
 					'id'       => 'wco_2_selector_' . $i,
