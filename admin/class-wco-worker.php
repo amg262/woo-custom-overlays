@@ -76,8 +76,8 @@ class WCO_Worker {
 
 		$this->product_data = array(
 			'native' => $this->get_native_cats(),
-			'cats' => $this->get_product_cats(),
-			'prods' => $this->get_products(),
+			'category' => $this->get_product_cats(),
+			'product' => $this->get_products(),
 		);
 
 		return $this->product_data;
@@ -95,6 +95,7 @@ class WCO_Worker {
 		);
 
 		$this->product_cats = get_terms( 'product_cat', $args );
+		array_unshift($this->product_cats, 'disabled');
 
 		return $this->product_cats;
 	}
@@ -110,7 +111,9 @@ class WCO_Worker {
 			'post_status'      => 'publish',
 			'suppress_filters' => true,
 		);
-		$this->products = get_posts( $args );
+		$this->products = query_posts( $args );
+
+		//array_unshift($this->products, 'disabled');
 
 		return $this->products;
 	}
@@ -134,6 +137,7 @@ class WCO_Worker {
 		);
 
 		sort( $this->native_cats );
+		array_unshift($this->native_cats, 'disabled');
 
 		return $this->native_cats;
 	}

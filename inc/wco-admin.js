@@ -11,10 +11,25 @@ jQuery(document).ready(function ($) {
     console.log(data);
     // We can also pass the url value separately from ajaxurl for front end AJAX implementations
     jQuery.post(ajax_object.ajax_url, data, function (response) {
-        alert('seRespon ' + response);
+        //alert('seRespon ' + response);
     });
+
+
 });
 
+jQuery(function($) {
+    $('#wcobutton').on('click', function() {
+        alert('hi');
+    });
+
+    $('select').select2()
+        .on("change", function(e) {
+            // mostly used event, fired to the original element when the value changes
+            //log("change val=" + e.val);
+            alert('yo');
+        });
+
+});
 /*
  * Plugins that insert posts via Ajax, such as infinite scroll plugins, should trigger the
  * post-load event on document.body after posts are inserted. Other scripts that depend on
@@ -28,6 +43,6 @@ jQuery(document).ready(function ($) {
  *JavaScript listening to the post-load event:
  */
 
-//jQuery(document.body).on('post-load', function () {
+jQuery(document.body).on('post-load', function () {
     // New posts have been added to the page.
-//});
+});
