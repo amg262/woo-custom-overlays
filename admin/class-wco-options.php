@@ -125,7 +125,7 @@ class WCO_Settings_Tab {
 		if ( ! $rows ) {
 			update_option( 'wco_rows', 0 );
 		}
-		var_dump( $wco_data );
+		//var_dump( $wco_data );
 
 		$worker     = new WCO_Worker();
 		$data       = $worker->get_cache();
@@ -177,7 +177,7 @@ class WCO_Settings_Tab {
 		$arrr = array_merge($prod_iden, $cat_iden);
 		$ar = array_merge($arrr, $attr_iden);
 
-		var_dump($ar);
+		//var_dump($ar);
 
 
 		$settings_wco = [];
@@ -201,7 +201,7 @@ class WCO_Settings_Tab {
 			'type' => 'text',
 			'desc' => __( '&nbsp;<button class="button button-primary"><a id="" style="color:#FFF;">Save</a></button>', 'woo-wco' ),
 			//'placeholder' => 'center top',
-			'css'  => 'width:250px;',
+			//'css'  => 'width:250px;',
 		];
 
 
@@ -217,7 +217,7 @@ class WCO_Settings_Tab {
 				<button class="button secondary"><a id="newrow" name="newrow">Add</a></button>
 				</span>
 				<span>
-				<a id="delrow" class="button delete" name="delrow">Remove</a>
+				<button class="button secondary"><a id="delrow" name="delrow">Remove</a></button>
 				</span>
 				', 'woo-wco' ),
 			//'desc'     => __( '&nbps;<button class="button button-primary"><a id="submit" style="color:#FFF;">Add Row</a></button><hr style="float:left;width:90%;border: 1px solid #000;margin-top: 35px;margin-bottom:15px;">', 'woo-wco' ),

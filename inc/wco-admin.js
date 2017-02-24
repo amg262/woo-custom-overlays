@@ -16,20 +16,6 @@ jQuery(document).ready(function ($) {
        // alert(ajax_object.nonce);
     });
 
-    $('#newrow').on('click', function() {
-        //alert('hi');
-        var i = parseInt( $('#wco_rows').val() );
-        var j = i + 1;
-        $('#wco_rows').attr('value', j);
-        //alert(j);
-    });
-
-    $('.itemgrouping.button').on('click', function() {
-        //alert('hi');
-        var rows = $('#numrows').val();
-
-        //alert(j);
-    });
 
 
 
@@ -43,9 +29,30 @@ jQuery(document).ready(function ($) {
 
 jQuery(function($) {
 
-
+    $('#newrow').on('click', function() {
+        //alert('hi');
+        var i = parseInt( $('#wco_rows').val() );
+        var j = i + 1;
+        $('#wco_rows').attr('value', j);
+        //alert(j);
+    });
 
 });
+
+
+jQuery(function($) {
+
+
+    $('#delrow').on('click', function() {
+        //alert('hi');
+        var i = parseInt( $('#wco_rows').val() );
+        var j = i - 1;
+        $('#wco_rows').attr('value', j);
+        //alert(j);
+    });
+
+});
+
 /*
  * Plugins that insert posts via Ajax, such as infinite scroll plugins, should trigger the
  * post-load event on document.body after posts are inserted. Other scripts that depend on
