@@ -1,17 +1,52 @@
 <?php
-namespace WooImageOverlay;
 
 defined( 'ABSPATH' ) or die( 'Plugin file cannot be accessed directly.' );
 
+include __DIR__ . '/class-wco-worker.php';
+
 class WCO_Settings_Tab {
 
+	/**
+	 *
+	 */
+	public function wco_admin_js() {
+		$nonce = wp_create_nonce( 'wco-nonce' );
+
+		if ( ! empty( $js ) ) {
+			wp_register_script( 'admin_js', plugins_url('/inc/wco-admin.js', __DIR__ ), array( 'jquery' ) );
+			wp_enqueue_script( 'admin_js' );
+
+			$ajax_object = array(
+				'ajax_url' => admin_url( 'admin-ajax.php' ),
+				'nonce'    => $nonce,
+			);
+			wp_localize_script( 'admin_js', 'ajax_object', $ajax_object );
+		}
+	}
+
+	// Same handler function...
+	/**
+	 *
+	 */
+	public function wco_admin_ajax() {
+		//global $wpdb;
+		//$whatever = intval( $_POST['whatever'] );
+		//$whatever += 10;
+		//echo $whatever;
+		//wp_die();
+	}
 
     /**
      * Bootstraps the class and hooks required actions & filters.
      *
      */
     public static function init() {
-        add_filter( 'woocommerce_settings_tabs_array', __CLASS__ . '::add_settings_tab', 50 );
+	    add_action( 'admin_footer', __CLASS__ . '::wco_admin_js' );
+	    add_action( 'wp_ajax_wco_ajax', __CLASS__ . '::wco_admin_ajax' );
+	    add_action( 'wp_ajax_nopriv_wco_ajax', __CLASS__ . '::wco_admin_ajax' );
+	    add_action( 'woocommerce_settings_tabs_settings_tab_wco', __CLASS__ . '::settings_tab' );
+
+	    add_filter( 'woocommerce_settings_tabs_array', __CLASS__ . '::add_settings_tab', 50 );
         add_action( 'woocommerce_settings_tabs_settings_tab_wco', __CLASS__ . '::settings_tab' );
         add_action( 'woocommerce_update_options_settings_tab_wco', __CLASS__ . '::update_settings' );
         add_action( 'woocommerce_settings_tabs_settings_tab_wco', __CLASS__ . '::submit_button' );
@@ -65,8 +100,10 @@ class WCO_Settings_Tab {
      * @return array Array of settings for @see woocommerce_admin_fields() function.
      */
     public static function get_settings() {
-	    include_once __DIR__ . '/class-wco-settings.php';
-	    $settings = new WCO_Settings();
+    	$data = array();
+
+	    $worker = new WCO_Worker();
+	    $data = $worker->get_cache();
 
 		$settings_wco = array();
 		echo '<div class="wco-top">';
@@ -77,7 +114,7 @@ class WCO_Settings_Tab {
 
 
 
-		$rows = 0; $max = 0;
+		$rows = 1; $max = 0;
 		$rows = get_option('wco_2_rows');
 		$max = get_option('wco_2_max_rows');
 		$sec = get_option('wco_sec');
@@ -89,7 +126,8 @@ class WCO_Settings_Tab {
 		//} else {
 		}
 
-		var_dump( $settings->get_cache() );
+
+		//var_dump( $settings->get_cache() );
 		//var_dump($c);
 		//echo $c[1];
 
@@ -127,12 +165,12 @@ class WCO_Settings_Tab {
 			'id'       => 'wco_2_rows',
 			'type'     => 'select',
 			'class'    => 'wc-enhanced-select',
-			'default' => 0,
+			'default' => 1,
 			'desc'     => __( '&nbsp;<button class="button button-primary"><a id="submit" style="color:#FFF;">Save</a></button>', 'woo-wco' ),
 			//'desc'     => __( '&nbps;<button class="button button-primary"><a id="submit" style="color:#FFF;">Add Row</a></button><hr style="float:left;width:90%;border: 1px solid #000;margin-top: 35px;margin-bottom:15px;">', 'woo-wco' ),
 			//'placeholder' => 'center top',
 			'css'    => 'max-width: 70px;width: 100%;text-align: center; display: inline-block!important;',
-			'options' => __( $nums, 'woo-wco')
+			'options' => __( array(1,2,3,4,5), 'woo-wco')
 		);
 
 		$settings_wco[] = array(
@@ -184,7 +222,7 @@ class WCO_Settings_Tab {
 				//'options'  => array(
 				//	'opt_'.$i      => __( $arr[$i], 'woocommerce' ),
 				//)
-				'options' => __( $classes, 'woo-wco')
+				'options' => __( $data['native'], 'woo-wco')
 			);
 			/*$settings_wco[] = array(
 				'name'     => __( 'Backgroound Size', 'woo-wco' ),
@@ -282,4 +320,8 @@ class WCO_Settings_Tab {
        
     }
 }
+
+
+
+
 WCO_Settings_Tab::init();

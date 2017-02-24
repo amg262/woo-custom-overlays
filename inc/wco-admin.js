@@ -1,12 +1,11 @@
 /**
  * Created by andy on 2/9/17.
  */
-
 jQuery(document).ready(function ($) {
     var data = {
         'action': '',
         'data': ajax_object,      // We pass php values differently!
-        //'security' : ajax_object.nonce,
+        'security' : ajax_object.nonce,
     };
 
     console.log(data);
@@ -23,12 +22,12 @@ jQuery(document).ready(function ($) {
  *
  * JavaScript triggering the post-load event after posts have been inserted via Ajax:
  */
-jQuery(document.body).trigger('post-load');
+//jQuery(document.body).trigger('post-load');
 
 /*
  *JavaScript listening to the post-load event:
  */
 
-jQuery(document.body).on('post-load', function () {
+//jQuery(document.body).on('post-load', function () {
     // New posts have been added to the page.
-});
+//});

@@ -9,15 +9,12 @@
 * Text Domain: woo-custom-overlays
 * License: GPL2
 */
-namespace WooImageOverlay;
 
 defined( 'ABSPATH' ) or die( 'Plugin file cannot be accessed directly.' );
 
 /**
  *
- */
-define( 'WCO_ADMIN', plugins_url( 'inc/wco-admin.js', __FILE__ ) );
-/**
+ *//**
  *
  */
 define( 'WCO_JS', plugins_url( 'inc/wco.js', __FILE__ ) );
@@ -29,12 +26,9 @@ define( 'WCO_CSS', plugins_url( 'inc/wco.css', __FILE__ ) );
  *
  */
 define( 'WCO_OPTIONS', 'wco_options' );
-define( 'WCO_SETTINGS', 'wco_settings' );
 
 global $wco_options;
-global $wco_settings;
 $wco_options = get_option( WCO_OPTIONS );
-$wco_settings = get_option( WCO_SETTINGS );
 
 /**
  * Classes and interfaces
@@ -61,17 +55,11 @@ class WCO_Plugin {
 		 */
 		include_once __DIR__ . '/admin/class-wco-options.php';
 		include_once __DIR__.'/inc/script-styles.php';
-		//add_action( 'admin_enqueue_scripts', array( $this, 'admin_js' ) );
-		add_action( 'wp_enqueue_scripts', array( $this, 'load_includes' ) );
-		add_action( 'wp_ajax_wco_ajax', array( $this, 'wco_ajax' ) );
-		add_action( 'wp_ajax_nopriv_wco_ajax', array( $this, 'wco_ajax' ) );
 
+		add_action( 'wp_enqueue_scripts', array( $this, 'load_includes' ) );
 		add_filter( 'plugin_action_links', array($this, 'wco_settings_link'), 10, 5 );
 
 		$this->add_options();
-		$this->add_settings();
-
-
 	}
 
 	/**
@@ -87,50 +75,7 @@ class WCO_Plugin {
 		}
 	}
 
-	/**
-	 * @return mixed|void
-	 */
-	public function add_settings() {
 
-		global $wco_settings;
-
-		if ( ! $wco_settings ) {
-			$args = array( 'init' => true );
-			add_option( WCO_SETTINGS, $args );
-		}
-	}
-
-	/**
-	 *
-	 */
-	public function admin_js() {
-
-		$nonce = wp_create_nonce( 'wco-nonce' );
-		$js    = plugins_url( '/inc/wco-admin.js', __FILE__ );
-
-		if ( ! empty( $js ) ) {
-			wp_register_script( 'admin_js', $js, array( 'jquery' ) );
-			wp_enqueue_script( 'admin_js' );
-
-			$ajax_object = array(
-				'ajax_url' => admin_url( 'admin-ajax.php' ),
-				'nonce'    => $nonce,
-			);
-			wp_localize_script( 'admin_js', 'ajax_object', $ajax_object );
-		}
-	}
-
-	// Same handler function...
-	/**
-	 *
-	 */
-	public function wco_ajax() {
-		//global $wpdb;
-		//$whatever = intval( $_POST['whatever'] );
-		//$whatever += 10;
-		//echo $whatever;
-		//wp_die();
-	}
 
 	/**
 	 *

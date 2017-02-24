@@ -1,4 +1,6 @@
 <?php
+namespace Nextraa;
+
 defined( 'ABSPATH' ) or die( 'Plugin file cannot be accessed directly.' );
 
 /**

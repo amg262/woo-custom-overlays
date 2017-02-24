@@ -6,7 +6,6 @@
  * Time: 10:04 PM
  */
 
-namespace WooImageOverlay;
 
 defined( 'ABSPATH' ) or die( 'Plugin file cannot be accessed directly.' );
 
@@ -17,7 +16,7 @@ defined( 'ABSPATH' ) or die( 'Plugin file cannot be accessed directly.' );
  *
  * @package WooImageOverlay
  */
-class WCO_Settings {
+class WCO_Worker {
 	/**
 	 * @var array
 	 */
@@ -42,6 +41,11 @@ class WCO_Settings {
 	 * @var array
 	 */
 	private $product_data = array();
+
+
+	public function __construct() {
+
+	}
 
 	/**
 	 *
@@ -133,4 +137,8 @@ class WCO_Settings {
 
 		return $this->native_cats;
 	}
+
+
+
+
 }
