@@ -11,9 +11,9 @@ class WCO_Settings_Tab {
 	 */
 	public static function init() {
 
-		add_action( 'admin_enqueue_scripts', __CLASS__ . '::wco_admin' );
-		add_action( 'wp_ajax_wco_ajax', __CLASS__ . '::wco_ajax' );
-		add_action( 'wp_ajax_nopriv_wco_ajax', __CLASS__ . '::wco_ajax' );
+		//add_action( 'admin_enqueue_scripts', __CLASS__ . '::wco_admin' );
+		//add_action( 'wp_ajax_wco_ajax', __CLASS__ . '::wco_ajax' );
+		//add_action( 'wp_ajax_nopriv_wco_ajax', __CLASS__ . '::wco_ajax' );
 
 		add_action( 'woocommerce_settings_tabs_settings_tab_wco', __CLASS__ . '::settings_tab' );
 
