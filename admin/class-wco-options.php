@@ -11,9 +11,9 @@ class WCO_Settings_Tab {
 	 */
 	public static function init() {
 
-		//add_action( 'admin_enqueue_scripts', __CLASS__ . '::wco_admin' );
-		//add_action( 'wp_ajax_wco_ajax', __CLASS__ . '::wco_ajax' );
-		//add_action( 'wp_ajax_nopriv_wco_ajax', __CLASS__ . '::wco_ajax' );
+		//sadd_action( 'admin_enqueue_scripts', __CLASS__ . '::wco_admin' );
+		add_action( 'wp_ajax_wco_ajax', __CLASS__ . '::wco_ajax' );
+		add_action( 'wp_ajax_nopriv_wco_ajax', __CLASS__ . '::wco_ajax' );
 
 		add_action( 'woocommerce_settings_tabs_settings_tab_wco', __CLASS__ . '::settings_tab' );
 
@@ -26,8 +26,8 @@ class WCO_Settings_Tab {
 	}
 
 	public static function wco_admin() {
-
 		$nonce = wp_create_nonce( 'wco-nonce' );
+
 		$file  = plugins_url( '/inc/wco-admin.js', __DIR__ );
 
 		if ( ! empty( $file ) ) {
@@ -46,12 +46,13 @@ class WCO_Settings_Tab {
 	public static function wco_ajax() {
 		//global $wpdb;
 
+		check_ajax_referer( 'wco-nonce', 'security' );
 
 
 		$whatever = $_POST['whatever'];
 		$posts = get_posts(array('post_type'=>$whatever));
 
-		foreach ($post as $p) {
+		foreach ($posts as $p) {
 			echo $p->post_title . '<br>';
 		}
 		//$whatever = intval( $_POST['whatever'] );
@@ -61,12 +62,6 @@ class WCO_Settings_Tab {
 	}
 
 	public static function submit_button() {
-		echo '<hr>';
-
-		/*echo '<p>
-				<button class="button secondary">Generate</button>
-			</p>';*/
-		//submit_button( 'Reset Settings', 'delete button-secondary', 'reset_wco_options' );
 
 	}
 
@@ -123,17 +118,14 @@ class WCO_Settings_Tab {
 			$arr[]  = $prod->post_title;
 		}
 
-		var_dump( $arr );
+		//var_dump( $arr );
 		//var_dump($prod_data);
 		$cat_data = $data[ 'category' ];
 
 
 		$settings_wco = array();
 		echo '<div class="wco-top">';
-		echo '<div>
-				<a href="#" id="wcobutton" class="button">Button</a>
-                <a class="button secondary">Generate</a>
-            </div>';
+
 
 
 		$rows = 1;
@@ -187,18 +179,19 @@ class WCO_Settings_Tab {
 
 
 		$settings_wco[] = array(
-			'name'     => __( 'No. of Rows', 'woo-wco' ),
+			'name'     => __( 'Active Rows', 'woo-wco' ),
 			'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-wco' ),
 			'id'       => 'wco_2_rows',
 			'type'     => 'select',
 			'class'    => 'wc-enhanced-select',
 			'default'  => 1,
-			'desc'     => __( '&nbsp;<button class="button button-primary"><a id="submit" style="color:#FFF;">Save</a></button>', 'woo-wco' ),
+			'desc'     => __( '&nbsp;<a class="button" id="newrow" name="newrow">New Row</a>', 'woo-wco' ),
 			//'desc'     => __( '&nbps;<button class="button button-primary"><a id="submit" style="color:#FFF;">Add Row</a></button><hr style="float:left;width:90%;border: 1px solid #000;margin-top: 35px;margin-bottom:15px;">', 'woo-wco' ),
 			//'placeholder' => 'center top',
-			'css'      => 'max-width: 70px;width: 100%;text-align: center; display: inline-block!important;',
+			'css'      => 'text-align: right; display: inline-block!important;',
 			'options'  => __( array( 1, 2, 3, 4, 5 ), 'woo-wco' ),
 		);
+
 
 		$settings_wco[] = array(
 			'name'    => __( 'Max Rows', 'woo-wco' ),
