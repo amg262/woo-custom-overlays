@@ -129,14 +129,28 @@ class WCO_Settings_Tab {
 
 		$worker    = new WCO_Worker();
 		$data      = $worker->get_cache();
-		$prod_data = (array) $worker->get_products();
-		$args      = [];
-		$arr       = [];
+		$attr = (array) $worker->get_product_attr();
+		$prod = (array) $worker->get_products();
+		$cats = (array) $worker->get_product_cats();
+		$attributes      = [];
+		$categories       = [];
+		$products = [];
 
-		foreach ( $prod_data as $prod ) {
-			$args[] = [ 'ID' => $prod->ID, 'post_title' => $prod->post_title ];
-			$arr[]  = $prod->post_title;
+		$prod_iden = [];
+		$cat_iden = [];
+
+
+		foreach ( $prod as $obj ) {
+			$products[] = [ 'ID' => $obj->ID, 'post_title' => $obj->post_title ];
+			$prod_iden[]  = $obj->post_title;
 		}
+
+		foreach ( $cats as $obj ) {
+			$categories[] = [ 'ID' => $obj->term_id, 'post_title' => $obj->name ];
+			$cat_iden[]  = $obj->name;
+		}
+
+		var_dump($cats);
 
 		//var_dump( $arr );
 		//var_dump($prod_data);

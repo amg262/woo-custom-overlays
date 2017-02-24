@@ -20,7 +20,7 @@ class WCO_Worker {
 	/**
 	 * @var array
 	 */
-	private $native_cats = array();
+	private $product_attr = array();
 	/**
 	 * @var array
 	 */
@@ -75,9 +75,9 @@ class WCO_Worker {
 	public function get_product_data() {
 
 		$this->product_data = array(
-			'native' => $this->get_native_cats(),
-			'category' => $this->get_product_cats(),
-			'product' => $this->get_products(),
+			'attr' => $this->get_product_attr(),
+			'cat' => $this->get_product_cats(),
+			'prod' => $this->get_products(),
 		);
 
 		return $this->product_data;
@@ -121,9 +121,9 @@ class WCO_Worker {
 	/**
 	 * @return array
 	 */
-	public function get_native_cats() {
+	public function get_product_attr() {
 
-		$this->native_cats = array(
+		$this->product_attr = array(
 			'has-post-thumbnail',
 			'downloadable',
 			'virtual',
@@ -136,10 +136,10 @@ class WCO_Worker {
 			'outofstock',
 		);
 
-		sort( $this->native_cats );
-		array_unshift($this->native_cats, 'disabled');
+		sort( $this->product_attr );
+		array_unshift( $this->product_attr, 'disabled');
 
-		return $this->native_cats;
+		return $this->product_attr;
 	}
 
 
