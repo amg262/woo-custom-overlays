@@ -2,49 +2,25 @@
 
 defined( 'ABSPATH' ) or die( 'Plugin file cannot be accessed directly.' );
 
+//include __DIR__ . '/admin-scripts.php';
 include __DIR__ . '/class-wco-worker.php';
 
 class WCO_Settings_Tab {
 
-	/**
-	 *
-	 */
-	public function wco_admin_js() {
-		$nonce = wp_create_nonce( 'wco-nonce' );
 
-		if ( ! empty( $js ) ) {
-			wp_register_script( 'admin_js', plugins_url('/inc/wco-admin.js', __DIR__ ), array( 'jquery' ) );
-			wp_enqueue_script( 'admin_js' );
-
-			$ajax_object = array(
-				'ajax_url' => admin_url( 'admin-ajax.php' ),
-				'nonce'    => $nonce,
-			);
-			wp_localize_script( 'admin_js', 'ajax_object', $ajax_object );
-		}
-	}
-
-	// Same handler function...
-	/**
-	 *
-	 */
-	public function wco_admin_ajax() {
-		//global $wpdb;
-		//$whatever = intval( $_POST['whatever'] );
-		//$whatever += 10;
-		//echo $whatever;
-		//wp_die();
-	}
 
     /**
      * Bootstraps the class and hooks required actions & filters.
      *
      */
     public static function init() {
-	    add_action( 'admin_footer', __CLASS__ . '::wco_admin_js' );
-	    add_action( 'wp_ajax_wco_ajax', __CLASS__ . '::wco_admin_ajax' );
-	    add_action( 'wp_ajax_nopriv_wco_ajax', __CLASS__ . '::wco_admin_ajax' );
+
+	    add_action( 'admin_enqueue_scripts', __CLASS__ . '::wco_admin' );
+	    add_action( 'wp_ajax_wco_ajax', __CLASS__ . '::wco_ajax' );
+	    add_action( 'wp_ajax_nopriv_wco_ajax', __CLASS__ . '::wco_ajax' );
+
 	    add_action( 'woocommerce_settings_tabs_settings_tab_wco', __CLASS__ . '::settings_tab' );
+
 
 	    add_filter( 'woocommerce_settings_tabs_array', __CLASS__ . '::add_settings_tab', 50 );
         add_action( 'woocommerce_settings_tabs_settings_tab_wco', __CLASS__ . '::settings_tab' );
@@ -53,6 +29,34 @@ class WCO_Settings_Tab {
 
         //$set->init();
     }
+
+	public static function wco_admin() {
+
+		$nonce = wp_create_nonce( 'wco-nonce' );
+		$file  = plugins_url( '/inc/wco-admin.js', __DIR__ );
+
+		if ( ! empty( $file ) ) {
+			wp_register_script( 'wco_admin_js', $file, array( 'jquery' ) );
+			wp_enqueue_script( 'wco_admin_js' );
+
+			$ajax_object = array(
+				'ajax_url' => admin_url( 'admin-ajax.php' ),
+				'nonce'    => $nonce,
+			);
+			wp_localize_script( 'wco_admin_js', 'ajax_object', $ajax_object );
+		}
+	}
+
+	public static function wco_ajax() {
+		//global $wpdb;
+		//$whatever = intval( $_POST['whatever'] );
+		//$whatever += 10;
+		//echo $whatever;
+		//wp_die();
+	}
+
+
+
 
     public static function submit_button() {
     	echo '<hr>';
@@ -320,8 +324,6 @@ class WCO_Settings_Tab {
        
     }
 }
-
-
 
 
 WCO_Settings_Tab::init();
