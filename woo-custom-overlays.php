@@ -27,8 +27,6 @@ define( 'WCO_CSS', plugins_url( 'inc/wco.css', __FILE__ ) );
  */
 define( 'WCO_OPTIONS', 'wco_options' );
 
-global $wco_options;
-$wco_options = get_option( WCO_OPTIONS );
 
 /**
  * Classes and interfaces
@@ -67,9 +65,9 @@ class WCO_Plugin {
 	 */
 	public function add_options() {
 
-		global $wco_options;
+		$this->options = get_option(WCO_OPTIONS);
 
-		if ( ! $wco_options ) {
+		if ( ! $this->options ) {
 			$args = array( 'init' => true, 'upgrade' => false );
 			add_option( WCO_OPTIONS, $args );
 		}

@@ -9,20 +9,24 @@ jQuery(document).ready(function ($) {
         'security' : ajax_object.nonce,
     };
 
+    console.log(data);
     $('select').select2().on("change", function(e) {
         // mostly used event, fired to the original element when the value changes
         //log("change val=" + e.val);
-        alert(ajax_object.nonce);
+       // alert(ajax_object.nonce);
     });
 
-    $('#wcobutton').on('click', function() {
-        alert('hi');
+    $('#newrow').on('click', function() {
+        //alert('hi');
+        var i = parseInt( $('#wco_rows').val() );
+        var j = i + 1;
+        $('#wco_rows').attr('value', j);
+        //alert(j);
     });
-
 
     // We can also pass the url value separately from ajaxurl for front end AJAX implementations
     jQuery.post(ajax_object.ajax_url, data, function (response) {
-        alert('seRespon ' + response);
+        //alert('seRespon ' + response);
     });
 
 

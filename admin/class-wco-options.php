@@ -5,15 +5,17 @@ defined( 'ABSPATH' ) or die( 'Plugin file cannot be accessed directly.' );
 //include __DIR__ . '/admin-scripts.php';
 include __DIR__ . '/class-wco-worker.php';
 
+
 class WCO_Settings_Tab {
+
 	/**
 	 * Bootstraps the class and hooks required actions & filters.
 	 */
 	public static function init() {
 
-		//sadd_action( 'admin_enqueue_scripts', __CLASS__ . '::wco_admin' );
-		add_action( 'wp_ajax_wco_ajax', __CLASS__ . '::wco_ajax' );
-		add_action( 'wp_ajax_nopriv_wco_ajax', __CLASS__ . '::wco_ajax' );
+		add_action( 'admin_enqueue_scripts', __CLASS__ . '::wco_admin' );
+		//add_action( 'wp_ajax_wco_ajax', __CLASS__ . '::wco_ajax' );
+		//add_action( 'wp_ajax_nopriv_wco_ajax', __CLASS__ . '::wco_ajax' );
 
 		add_action( 'woocommerce_settings_tabs_settings_tab_wco', __CLASS__ . '::settings_tab' );
 
@@ -25,23 +27,25 @@ class WCO_Settings_Tab {
 		//$set->init();
 	}
 
+
 	public static function wco_admin() {
 		$nonce = wp_create_nonce( 'wco-nonce' );
 
-		$file  = plugins_url( '/inc/wco-admin.js', __DIR__ );
+		$file = plugins_url( '/inc/wco-admin.js', __DIR__ );
 
 		if ( ! empty( $file ) ) {
-			wp_register_script( 'wco_admin_js', $file, array( 'jquery' ) );
+			wp_register_script( 'wco_admin_js', $file, [ 'jquery' ] );
 			wp_enqueue_script( 'wco_admin_js' );
 
-			$ajax_object = array(
+			$ajax_object = [
 				'ajax_url' => admin_url( 'admin-ajax.php' ),
 				'nonce'    => $nonce,
-				'whatever' => 'product'
-			);
+				'whatever' => 'product',
+			];
 			wp_localize_script( 'wco_admin_js', 'ajax_object', $ajax_object );
 		}
 	}
+
 
 	public static function wco_ajax() {
 		//global $wpdb;
@@ -49,10 +53,10 @@ class WCO_Settings_Tab {
 		check_ajax_referer( 'wco-nonce', 'security' );
 
 
-		$whatever = $_POST['whatever'];
-		$posts = get_posts(array('post_type'=>$whatever));
+		$whatever = $_POST[ 'whatever' ];
+		$posts    = get_posts( [ 'post_type' => $whatever ] );
 
-		foreach ($posts as $p) {
+		foreach ( $posts as $p ) {
 			echo $p->post_title . '<br>';
 		}
 		//$whatever = intval( $_POST['whatever'] );
@@ -61,9 +65,10 @@ class WCO_Settings_Tab {
 		wp_die();
 	}
 
-	public static function submit_button() {
 
+	public static function submit_button() {
 	}
+
 
 	/**
 	 * Add a new settings tab to the WooCommerce settings tabs array.
@@ -78,6 +83,7 @@ class WCO_Settings_Tab {
 		return $settings_tabs;
 	}
 
+
 	/**
 	 * Uses the WooCommerce admin fields API to output settings via the @see woocommerce_admin_fields() function.
 	 *
@@ -89,6 +95,7 @@ class WCO_Settings_Tab {
 		woocommerce_admin_fields( self::get_settings() );
 	}
 
+
 	/**
 	 * Uses the WooCommerce options API to save settings via the @see woocommerce_update_options() function.
 	 *
@@ -99,19 +106,32 @@ class WCO_Settings_Tab {
 		woocommerce_update_options( self::get_settings() );
 	}
 
+
 	/**
 	 * Get all the settings for this plugin for @see woocommerce_admin_fields() function.
 	 *
 	 * @return array Array of settings for @see woocommerce_admin_fields() function.
 	 */
 	public static function get_settings() {
-		$data = array();
+		$data     = [];
+		$args = [];
+		$lic = get_option('wco_license');
+		$rows = get_option('wco_rows');
+
+		if (!$lic) {
+			update_option( 'wco_license', mt_rand());
+		}
+
+		if (!$rows) {
+			update_option( 'wco_rows', 0);
+		}
+		var_dump($wco_data);
 
 		$worker    = new WCO_Worker();
 		$data      = $worker->get_cache();
 		$prod_data = (array) $worker->get_products();
-		$args      = array();
-		$arr       = array();
+		$args      = [];
+		$arr       = [];
 
 		foreach ( $prod_data as $prod ) {
 			$args[] = [ 'ID' => $prod->ID, 'post_title' => $prod->post_title ];
@@ -123,93 +143,55 @@ class WCO_Settings_Tab {
 		$cat_data = $data[ 'category' ];
 
 
-		$settings_wco = array();
+		$settings_wco = [];
 		echo '<div class="wco-top">';
 
 
-
-		$rows = 1;
-		$max  = 0;
-		$rows = get_option( 'wco_2_rows' );
-		$max  = get_option( 'wco_2_max_rows' );
-		$sec  = get_option( 'wco_sec' );
-
-		if ( $max == 0 ) {
-			update_option( 'wco_2_max_rows', $rows );
-		} elseif ( $rows > $max ) {
-			update_option( 'wco_2_max_rows', $rows );
-			//} else {
-		}
-
-
-		//var_dump( $settings->get_cache() );
-		//var_dump($c);
-		//echo $c[1];
-
-		//var_dump($posts);
-		//$arr = array('instock','wco');
-
 		// Add Title to the Settings
-		$settings_wco[] = array(
+		$settings_wco[] = [
 			'name' => __( 'Woocommerce Image Overlays', 'woo-wco' ),
 			'type' => 'title',
 			'desc' => __( 'The following options are used to configure Woocommerce Custom Overlays', 'woo-wco' ),
 			'id'   => '',
-		);
-		// Add first checkbox option
-		/*$settings_wco[] = array(
-			'name'     => __( 'Disable Overlay', 'woo-wco' ),
-			'desc_tip' => __( '', 'woo-wco' ),
-			'id'       => 'disable_wco_2_overlay',
-			'type'     => 'checkbox',
-			//'css'      => 'min-width:300px;',
-			'desc'     => __( '<small>&nbsp;Check this to <b>DISABLE</b> the out of stock overlay</small>', 'woo-wco' )
-		);*/
+		];
+
 		// Add second text field option
 		//echo '<h3>To create a overlays, choose the number of total rows, or seperate overlay images and click save. ';
-		$settings_wco[] = array(
+		$settings_wco[] = [
 			'name' => __( 'License Key', 'woo-wco' ),
 			//'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-wco' ),
-			'id'   => 'wco_2_license_key',
+			'id'   => 'wco_license',
 			'type' => 'text',
 			'desc' => __( '&nbsp;<button class="button button-primary"><a id="" style="color:#FFF;">Save</a></button>', 'woo-wco' ),
 			//'placeholder' => 'center top',
-			'css'  => 'max-width:500px; width:550px;',
-		);
+			'css'  => 'width:250px;',
+		];
 
 
-		$settings_wco[] = array(
-			'name'     => __( 'Active Rows', 'woo-wco' ),
+		$settings_wco[] = [
+			'name'     => __( 'Rows', 'woo-wco' ),
 			'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-wco' ),
-			'id'       => 'wco_2_rows',
-			'type'     => 'select',
-			'class'    => 'wc-enhanced-select',
-			'default'  => 1,
-			'desc'     => __( '&nbsp;<a class="button" id="newrow" name="newrow">New Row</a>', 'woo-wco' ),
+			'id'       => 'wco_rows',
+			'type'     => 'number',
+			'default'  => 0,
+			'desc'     => __(
+				'&nbsp;
+				<span>
+				<button class="button secondary"><a id="newrow" name="newrow">Add</a></button>
+				</span>
+				<span>
+				<a id="delrow" class="button delete" name="delrow">Remove</a>
+				</span>
+				', 'woo-wco' ),
 			//'desc'     => __( '&nbps;<button class="button button-primary"><a id="submit" style="color:#FFF;">Add Row</a></button><hr style="float:left;width:90%;border: 1px solid #000;margin-top: 35px;margin-bottom:15px;">', 'woo-wco' ),
 			//'placeholder' => 'center top',
 			'css'      => 'text-align: right; display: inline-block!important;',
-			'options'  => __( array( 1, 2, 3, 4, 5 ), 'woo-wco' ),
-		);
+		];
 
-
-		$settings_wco[] = array(
-			'name'    => __( 'Max Rows', 'woo-wco' ),
-			//'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-wco' ),
-			'id'      => 'wco_2_max_rows',
-			'type'    => 'hidden',
-			//'class'    => 'wc-enhanced-select',
-			'default' => 0,
-			'desc'    => __( '&nbsp;', 'woo-wco' )
-			//'desc'     => __( '&nbps;<button class="button button-primary"><a id="submit" style="color:#FFF;">Add Row</a></button><hr style="float:left;width:90%;border: 1px solid #000;margin-top: 35px;margin-bottom:15px;">', 'woo-wco' ),
-			//'placeholder' => 'center top',
-			//'css'    => 'max-width:70px;width:100%; text-align:center;',
-			//'options' => __( $nums, 'woo-wco')
-		);
 
 		//$settings_wco[] = array(submit_button("Save"));
 
-		$settings_wco[] = array(
+		$settings_wco[] = [
 			'name'        => __( 'Woo Secs', 'woo-wco' ),
 			'desc_tip'    => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-wco' ),
 			'id'          => 'wco_sec',
@@ -217,7 +199,7 @@ class WCO_Settings_Tab {
 			'desc'        => __( '', 'woo-wco' ),
 			'placeholder' => '',
 			'class'       => '',
-		);
+		];
 
 		echo '<div>
 				<a href="#" class="button">Button</a>
@@ -230,7 +212,7 @@ class WCO_Settings_Tab {
 			for ( $i = 0; $i < $rows; $i ++ ) {
 				//echo '<hr>';
 
-				$settings_wco[] = array(
+				$settings_wco[] = [
 					'title'    => __( 'Selector Class', 'woocommerce' ),
 					'desc'     => __( 'This option lets you limit which countries you are willing to sell to.', 'woocommerce' ),
 					'id'       => 'wco_2_selector_' . $i,
@@ -242,9 +224,9 @@ class WCO_Settings_Tab {
 					//	'opt_'.$i      => __( $arr[$i], 'woocommerce' ),
 					//)
 					'options'  => __( $data[ 'native' ], 'woo-wco' ),
-				);
+				];
 
-				$settings_wco[] = array(
+				$settings_wco[] = [
 					'title'    => __( 'Product', 'woocommerce' ),
 					'desc'     => __( 'This option lets you limit which countries you are willing to sell to.', 'woocommerce' ),
 					'id'       => 'wco_2_product_' . $i,
@@ -256,7 +238,7 @@ class WCO_Settings_Tab {
 					//	'opt_'.$i      => __( $arr[$i], 'woocommerce' ),
 					//)
 					'options'  => __( $arr, 'woo-wco' ),
-				);
+				];
 				/*$settings_wco[] = array(
 					'name'     => __( 'Backgroound Size', 'woo-wco' ),
 					'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-wco' ),
@@ -269,7 +251,7 @@ class WCO_Settings_Tab {
 				);*/
 
 
-				$settings_wco[] = array(
+				$settings_wco[] = [
 					'name'        => __( 'Background Position', 'woo-wco' ),
 					'desc_tip'    => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-wco' ),
 					'id'          => 'wco_2_background_position_' . $i,
@@ -278,8 +260,8 @@ class WCO_Settings_Tab {
 					'placeholder' => 'center top',
 					'default'     => 'center top',
 					'class'       => '',
-				);
-				$settings_wco[] = array(
+				];
+				$settings_wco[] = [
 					'name'     => __( 'Background Color', 'woo-wco' ),
 					'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-wco' ),
 					'id'       => 'wco_2_background_color_' . $i,
@@ -287,10 +269,10 @@ class WCO_Settings_Tab {
 					'desc'     => __( '', 'woo-wco' ),
 					'default'  => 'transparent',
 					'class'    => '',
-				);
+				];
 
 
-				$settings_wco[] = array(
+				$settings_wco[] = [
 					'name'        => __( 'Background Repeat', 'woo-wco' ),
 					'desc_tip'    => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-wco' ),
 					'id'          => 'wco_2_background_repeat_' . $i,
@@ -301,9 +283,9 @@ class WCO_Settings_Tab {
 					'placeholder' => 'no-repeat',
 					'default'     => 'no-repeat',
 					'class'       => '',
-				);
+				];
 
-				$settings_wco[] = array(
+				$settings_wco[] = [
 					'name'        => __( 'Image Opacity', 'woo-wco' ),
 					'desc_tip'    => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-wco' ),
 					'id'          => 'wco_2_image_opacity_' . $i,
@@ -312,10 +294,10 @@ class WCO_Settings_Tab {
 					'placeholder' => '.8',
 					'default'     => '.8',
 					'class'       => '',
-				);
+				];
 
 
-				$settings_wco[] = array(
+				$settings_wco[] = [
 					'name'     => __( 'Overlay Image URL', 'woo-wco' ),
 					'desc_tip' => __( 'This will be the URL of the image you are using for the Out of Stock overlay. Make sure it is a <b>PNG</b>', 'woo-wco' ),
 					'id'       => 'wco_2_image_url_' . $i,
@@ -324,7 +306,7 @@ class WCO_Settings_Tab {
 					'desc'     => __( '&nbsp;Make sure your image is a <b>PNG!</b><br><hr style="float:left;width:90%;border: 1px dotted #CCC;margin-top: 35px;margin-bottom:15px;">', 'woo-wco' ),
 					'class'    => 'overlay-input',
 					'css'      => 'max-width:700px;width:100%;',
-				);
+				];
 
 				/*$settings_wco[] = array(
 					//'name'     => __( 'Overlay Image URL', 'woo-wco' ),
@@ -340,7 +322,7 @@ class WCO_Settings_Tab {
 				//echo '<br><hr><br>';
 			}
 		endif;
-		$settings_wco[] = array( 'type' => 'sectionend', 'id' => 'wco_2' );
+		$settings_wco[] = [ 'type' => 'sectionend', 'id' => 'wco_2' ];
 
 
 		//echo '<p class="submit wco-submit">';
@@ -350,6 +332,7 @@ class WCO_Settings_Tab {
 		echo '</div">';
 	}
 }
+
 
 WCO_Settings_Tab::init();
 
