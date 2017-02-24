@@ -24,6 +24,15 @@ jQuery(document).ready(function ($) {
         //alert(j);
     });
 
+    $('.itemgrouping.button').on('click', function() {
+        //alert('hi');
+        var rows = $('#numrows').val();
+
+        //alert(j);
+    });
+
+
+
     // We can also pass the url value separately from ajaxurl for front end AJAX implementations
     jQuery.post(ajax_object.ajax_url, data, function (response) {
         //alert('seRespon ' + response);

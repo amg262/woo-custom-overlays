@@ -113,48 +113,71 @@ class WCO_Settings_Tab {
 	 * @return array Array of settings for @see woocommerce_admin_fields() function.
 	 */
 	public static function get_settings() {
-		$data     = [];
+		$data = [];
 		$args = [];
-		$lic = get_option('wco_license');
-		$rows = get_option('wco_rows');
+		$lic  = get_option( 'wco_license' );
+		$rows = get_option( 'wco_rows' );
 
-		if (!$lic) {
-			update_option( 'wco_license', mt_rand());
+		if ( ! $lic ) {
+			update_option( 'wco_license', mt_rand() );
 		}
 
-		if (!$rows) {
-			update_option( 'wco_rows', 0);
+		if ( ! $rows ) {
+			update_option( 'wco_rows', 0 );
 		}
-		var_dump($wco_data);
+		var_dump( $wco_data );
 
-		$worker    = new WCO_Worker();
-		$data      = $worker->get_cache();
-		$attr = (array) $worker->get_product_attr();
-		$prod = (array) $worker->get_products();
-		$cats = (array) $worker->get_product_cats();
-		$attributes      = [];
-		$categories       = [];
-		$products = [];
+		$worker     = new WCO_Worker();
+		$data       = $worker->get_cache();
+		$attr       = (array) $worker->get_product_attr();
+		$prod       = (array) $worker->get_products();
+		$cats       = (array) $worker->get_product_cats();
+		$attributes = [];
+		$categories = [];
+		$products   = [];
 
 		$prod_iden = [];
-		$cat_iden = [];
+		$cat_iden  = [];
+		$attr_iden = [];
 
 
+		$i = 0;
+		foreach ( $attr as $obj ) {
+			if ( $i === 0 ) {
+				$attr_iden[] = '---------------';
+			} else {
+				$attr_iden[] = $obj;
+			}
+			$i++;
+		}
+
+		$i = 0;
 		foreach ( $prod as $obj ) {
-			$products[] = [ 'ID' => $obj->ID, 'post_title' => $obj->post_title ];
-			$prod_iden[]  = $obj->post_title;
+			if ( $i === 0 ) {
+				$prod_iden[] = '---------------';
+			} else {
+				$prod_iden[] = $obj->post_title;
+				$products[]  = [ 'ID' => $obj->ID, 'post_title' => $obj->name ];
+			}
+			$i ++;
 		}
-
+		$i = 0;
 		foreach ( $cats as $obj ) {
-			$categories[] = [ 'ID' => $obj->term_id, 'post_title' => $obj->name ];
-			$cat_iden[]  = $obj->name;
+			if ( $i === 0 ) {
+				$cat_iden[] = '---------------';
+			} else {
+				$cat_iden[]   = $obj->name;
+				$categories[] = [ 'ID' => $obj->term_id, 'name' => $obj->name ];
+			}
+			$i ++;
 		}
 
-		var_dump($cats);
+		$data = [ $prod_iden, $cat_iden, $attr_iden ];
 
-		//var_dump( $arr );
-		//var_dump($prod_data);
-		$cat_data = $data[ 'category' ];
+		$arrr = array_merge($prod_iden, $cat_iden);
+		$ar = array_merge($arrr, $attr_iden);
+
+		var_dump($ar);
 
 
 		$settings_wco = [];
@@ -203,19 +226,11 @@ class WCO_Settings_Tab {
 		];
 
 
-		//$settings_wco[] = array(submit_button("Save"));
 
-		$settings_wco[] = [
-			'name'        => __( 'Woo Secs', 'woo-wco' ),
-			'desc_tip'    => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-wco' ),
-			'id'          => 'wco_sec',
-			'type'        => 'hidden',
-			'desc'        => __( '', 'woo-wco' ),
-			'placeholder' => '',
-			'class'       => '',
-		];
+		$val = '<input type="hidden" id="numrows" name="numrows" value="' . $rows . '" />';
 
-		echo '<div>
+		echo '<div>' .
+		     $val . '
 				<a href="#" class="button">Button</a>
                 <a class="button secondary">Generate</a>
             </div>';
@@ -225,24 +240,9 @@ class WCO_Settings_Tab {
 
 			for ( $i = 0; $i < $rows; $i ++ ) {
 				//echo '<hr>';
-
 				$settings_wco[] = [
-					'title'    => __( 'Grouping', 'woocommerce' ),
-					'desc'     => __( 'This option lets you limit which countries you are willing to sell to.', 'woocommerce' ),
-					'id'       => 'wco_itemgroup_' . $i,
-					//'default'  => 1,
-					'type'     => 'select',
-					'class'    => 'wc-enhanced-select',
-					'desc_tip' => true,
-					//'options'  => array(
-					//	'opt_'.$i      => __( $arr[$i], 'woocommerce' ),
-					//)
-					'options'  => __( [ 'Attributes', 'Products', 'Categories' ], 'woo-wco' ),
-				];
-
-				$settings_wco[] = [
-					'title'    => __( 'Selector Class', 'woocommerce' ),
-					'desc'     => __( 'This option lets you limit which countries you are willing to sell to.', 'woocommerce' ),
+					'title'    => __( 'Active Target', 'woocommerce' ),
+					'desc'     => __( '&nbsp;', 'woo-wco' ),
 					'id'       => 'wco_2_selector_' . $i,
 					//'default'  => 1,
 					'type'     => 'select',
@@ -251,22 +251,9 @@ class WCO_Settings_Tab {
 					//'options'  => array(
 					//	'opt_'.$i      => __( $arr[$i], 'woocommerce' ),
 					//)
-					'options'  => __( $data[ 'native' ], 'woo-wco' ),
+					'options'  => __( $ar, 'woo-wco' ),
 				];
 
-				$settings_wco[] = [
-					'title'    => __( 'Product', 'woocommerce' ),
-					'desc'     => __( 'This option lets you limit which countries you are willing to sell to.', 'woocommerce' ),
-					'id'       => 'wco_2_product_' . $i,
-					//'default'  => 1,
-					'type'     => 'select',
-					'class'    => 'wc-enhanced-select',
-					'desc_tip' => true,
-					//'options'  => array(
-					//	'opt_'.$i      => __( $arr[$i], 'woocommerce' ),
-					//)
-					'options'  => __( $arr, 'woo-wco' ),
-				];
 				/*$settings_wco[] = array(
 					'name'     => __( 'Backgroound Size', 'woo-wco' ),
 					'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-wco' ),

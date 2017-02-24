@@ -95,7 +95,7 @@ class WCO_Worker {
 		);
 
 		$this->product_cats = get_terms( 'product_cat', $args );
-		array_unshift($this->product_cats, 'disabled');
+		//array_unshift($this->product_cats, 'disabled');
 
 		return $this->product_cats;
 	}
@@ -137,7 +137,7 @@ class WCO_Worker {
 		);
 
 		sort( $this->product_attr );
-		array_unshift( $this->product_attr, 'disabled');
+		array_unshift( $this->product_attr, 'none');
 
 		return $this->product_attr;
 	}
