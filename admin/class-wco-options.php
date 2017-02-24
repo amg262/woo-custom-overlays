@@ -37,6 +37,7 @@ class WCO_Settings_Tab {
 			$ajax_object = array(
 				'ajax_url' => admin_url( 'admin-ajax.php' ),
 				'nonce'    => $nonce,
+				'whatever' => 'product'
 			);
 			wp_localize_script( 'wco_admin_js', 'ajax_object', $ajax_object );
 		}
@@ -44,10 +45,19 @@ class WCO_Settings_Tab {
 
 	public static function wco_ajax() {
 		//global $wpdb;
+
+
+
+		$whatever = $_POST['whatever'];
+		$posts = get_posts(array('post_type'=>$whatever));
+
+		foreach ($post as $p) {
+			echo $p->post_title . '<br>';
+		}
 		//$whatever = intval( $_POST['whatever'] );
 		//$whatever += 10;
 		//echo $whatever;
-		//wp_die();
+		wp_die();
 	}
 
 	public static function submit_button() {

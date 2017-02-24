@@ -3,31 +3,34 @@
  */
 jQuery(document).ready(function ($) {
     var data = {
-        'action': '',
+        'action': 'wco_ajax',
+        'whatever': ajax_object.whatever,
         'data': ajax_object,      // We pass php values differently!
         'security' : ajax_object.nonce,
     };
 
-    console.log(data);
+    $('select').select2().on("change", function(e) {
+        // mostly used event, fired to the original element when the value changes
+        //log("change val=" + e.val);
+        alert(ajax_object.nonce);
+    });
+
+    $('#wcobutton').on('click', function() {
+        alert('hi');
+    });
+
+
     // We can also pass the url value separately from ajaxurl for front end AJAX implementations
     jQuery.post(ajax_object.ajax_url, data, function (response) {
-        //alert('seRespon ' + response);
+        alert('seRespon ' + response);
     });
 
 
 });
 
 jQuery(function($) {
-    $('#wcobutton').on('click', function() {
-        alert('hi');
-    });
 
-    $('select').select2()
-        .on("change", function(e) {
-            // mostly used event, fired to the original element when the value changes
-            //log("change val=" + e.val);
-            alert('yo');
-        });
+
 
 });
 /*
@@ -42,7 +45,8 @@ jQuery(function($) {
 /*
  *JavaScript listening to the post-load event:
  */
-
+jQuery( document.body ).trigger( 'post-load' );
 jQuery(document.body).on('post-load', function () {
     // New posts have been added to the page.
+    console.log('posts');
 });
