@@ -279,7 +279,7 @@ class WCO_Settings_Tab {
 					//'default'  => 1,
 					'type' => 'text',
 				];
-				
+
 				/*$settings_wco[] = array(
 					'name'     => __( 'Backgroound Size', 'woo-wco' ),
 					'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-wco' ),
