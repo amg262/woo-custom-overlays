@@ -1,0 +1,36 @@
+{
+  "name": "woo-custom-overlays",
+  "version": "1.0.0",
+  "description": "=== WooCommerce Image Overlay === Contributors: netraa414, amg26 Tags: woocommerce, woo, woocommerce image overlay, image overlay, product overlay, custom image overlay, woocommerce overlay, woo out of stock, product overlay, custom overlay, woocommerce overlay, woocommerce product overlay,woocommerce, out of stock, product, woocommerce product, sold out, out of stock Donate link: http://andrewgunn.org/donate Requires at least: 3.0 Tested up to: 4.7.2 Stable tag: 2.0 License: GPLv2 or later License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://amg262@github.com/amg262/woo-custom-overlays.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amg262/woo-custom-overlays/issues"
+  },
+  "homepage": "https://github.com/amg262/woo-custom-overlays#readme",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "browser-sync": "^2.18.8",
+    "del": "^2.2.2",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-cssnano": "^2.1.2",
+    "gulp-file": "^0.3.0",
+    "gulp-imagemin": "^3.1.1",
+    "gulp-minify": "0.0.15",
+    "gulp-plumber": "^1.1.0",
+    "gulp-postcss": "^6.3.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^2.0.1",
+    "gulp-util": "^3.0.8",
+    "pump": "^1.0.2"
+  }
+}

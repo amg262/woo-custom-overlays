@@ -1,4 +1,11 @@
 <?php
+/**
+ * Copyright (c) 2017  |  Netraa, LLC
+ * netraa414@gmail.com  |  https://netraa.us
+ *
+ * Andrew Gunn  |  Owner
+ * https://andrewgunn.org
+ */
 
 defined( 'ABSPATH' ) or die( 'Plugin file cannot be accessed directly.' );
 
@@ -14,11 +21,10 @@ class WCO_Settings_Tab {
 	public static function init() {
 
 		add_action( 'admin_enqueue_scripts', __CLASS__ . '::wco_admin' );
-		//add_action( 'wp_ajax_wco_ajax', __CLASS__ . '::wco_ajax' );
+		add_action( 'wp_ajax_wco_ajax', __CLASS__ . '::wco_ajax' );
 		//add_action( 'wp_ajax_nopriv_wco_ajax', __CLASS__ . '::wco_ajax' );
 
 		add_action( 'woocommerce_settings_tabs_settings_tab_wco', __CLASS__ . '::settings_tab' );
-
 
 		add_filter( 'woocommerce_settings_tabs_array', __CLASS__ . '::add_settings_tab', 50 );
 		add_action( 'woocommerce_settings_tabs_settings_tab_wco', __CLASS__ . '::settings_tab' );
@@ -29,9 +35,8 @@ class WCO_Settings_Tab {
 
 
 	public static function wco_admin() {
-		$nonce = wp_create_nonce( 'wco-nonce' );
 
-		$file = plugins_url( '/inc/wco-admin.js', __DIR__ );
+		$file = plugins_url( '/assets/lib/js/wco_admin.js', __DIR__ );
 
 		if ( ! empty( $file ) ) {
 			wp_register_script( 'wco_admin_js', $file, [ 'jquery' ] );
@@ -39,7 +44,7 @@ class WCO_Settings_Tab {
 
 			$ajax_object = [
 				'ajax_url' => admin_url( 'admin-ajax.php' ),
-				'nonce'    => $nonce,
+				'nonce'    => wp_create_nonce('wco-nonce'),
 				'whatever' => 'product',
 			];
 			wp_localize_script( 'wco_admin_js', 'ajax_object', $ajax_object );
@@ -48,13 +53,13 @@ class WCO_Settings_Tab {
 
 
 	public static function wco_ajax() {
+
 		//global $wpdb;
 
 		check_ajax_referer( 'wco-nonce', 'security' );
 
-
 		$whatever = $_POST[ 'whatever' ];
-		$posts    = get_posts( [ 'post_type' => $whatever ] );
+		$posts    = get_posts( );
 
 		foreach ( $posts as $p ) {
 			echo $p->post_title . '<br>';
@@ -78,6 +83,7 @@ class WCO_Settings_Tab {
 	 * @return array $settings_tabs Array of WooCommerce setting tabs & their labels, including the Subscription tab.
 	 */
 	public static function add_settings_tab( $settings_tabs ) {
+
 		$settings_tabs[ 'settings_tab_wco' ] = __( 'Image Overlay', 'woo-wco' );
 
 		return $settings_tabs;
@@ -103,6 +109,7 @@ class WCO_Settings_Tab {
 	 * @uses self::get_settings()
 	 */
 	public static function update_settings() {
+
 		woocommerce_update_options( self::get_settings() );
 	}
 
@@ -113,6 +120,7 @@ class WCO_Settings_Tab {
 	 * @return array Array of settings for @see woocommerce_admin_fields() function.
 	 */
 	public static function get_settings() {
+
 		$data = [];
 		$args = [];
 		$lic  = get_option( 'wco_2_license' );
@@ -140,7 +148,6 @@ class WCO_Settings_Tab {
 		$cat_iden  = [];
 		$attr_iden = [];
 
-
 		$i = 0;
 		foreach ( $attr as $obj ) {
 			if ( $i === 0 ) {
@@ -148,7 +155,7 @@ class WCO_Settings_Tab {
 			} else {
 				$attr_iden[] = $obj;
 			}
-			$i++;
+			$i ++;
 		}
 
 		$i = 0;
@@ -174,15 +181,13 @@ class WCO_Settings_Tab {
 
 		$data = [ $prod_iden, $cat_iden, $attr_iden ];
 
-		$arrr = array_merge($prod_iden, $cat_iden);
-		$ar = array_merge($arrr, $attr_iden);
+		$arrr = array_merge( $prod_iden, $cat_iden );
+		$ar   = array_merge( $arrr, $attr_iden );
 
 		//var_dump($ar);
 
-
 		$settings_wco = [];
 		echo '<div class="wco-top">';
-
 
 		// Add Title to the Settings
 		$settings_wco[] = [
@@ -199,11 +204,11 @@ class WCO_Settings_Tab {
 			//'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-wco' ),
 			'id'   => 'wco_2_license',
 			'type' => 'text',
-			'desc' => __( '&nbsp;<button class="button button-primary"><a id="" style="color:#FFF;">Save</a></button>', 'woo-wco' ),
+			'desc' => __( '&nbsp;<button class="button button-primary"><a id="" style="color:#FFF;">Save</a></button>',
+			              'woo-wco' ),
 			//'placeholder' => 'center top',
 			//'css'  => 'width:250px;',
 		];
-
 
 		$settings_wco[] = [
 			'name'     => __( 'Rows', 'woo-wco' ),
@@ -225,10 +230,7 @@ class WCO_Settings_Tab {
 			'css'      => 'text-align: right; display: inline-block!important;',
 		];
 
-
-
 		$val = '<input type="hidden" id="numrows" name="numrows" value="' . $rows . '" />';
-
 
 		if ( $rows > 0 ):
 
@@ -259,7 +261,6 @@ class WCO_Settings_Tab {
 					'class'    => ''
 				);*/
 
-
 				$settings_wco[] = [
 					'name'        => __( 'Background Position', 'woo-wco' ),
 					'desc_tip'    => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-wco' ),
@@ -267,7 +268,7 @@ class WCO_Settings_Tab {
 					'type'        => 'text',
 					'desc'        => __( '', 'woo-wco' ),
 					'placeholder' => 'center top',
-					'default'     => 'center top',
+					//'default'     => 'center top',
 					'class'       => '',
 				];
 				$settings_wco[] = [
@@ -276,10 +277,9 @@ class WCO_Settings_Tab {
 					'id'       => 'wco_2_background_color_' . $i,
 					'type'     => 'text',
 					'desc'     => __( '', 'woo-wco' ),
-					'default'  => 'transparent',
+					//'default'  => 'transparent',
 					'class'    => '',
 				];
-
 
 				$settings_wco[] = [
 					'name'        => __( 'Background Repeat', 'woo-wco' ),
@@ -301,18 +301,31 @@ class WCO_Settings_Tab {
 					'type'        => 'text',
 					'desc'        => __( '', 'woo-wco' ),
 					'placeholder' => '.8',
-					'default'     => '.8',
+					//'default'     => '.8',
 					'class'       => '',
 				];
 
-
 				$settings_wco[] = [
 					'name'     => __( 'Overlay Image URL', 'woo-wco' ),
-					'desc_tip' => __( 'This will be the URL of the image you are using for the Out of Stock overlay. Make sure it is a <b>PNG</b>', 'woo-wco' ),
+					'desc_tip' => __( 'This will be the URL of the image you are using for the Out of Stock overlay. Make sure it is a <b>PNG</b>',
+					                  'woo-wco' ),
 					'id'       => 'wco_2_image_url_' . $i,
-					'default'  => plugins_url( 'assets/sign-pin.png', __DIR__ ),
+					//'default'  => plugins_url( 'assets/sign-pin.png', __DIR__ ),
 					'type'     => 'text',
-					'desc'     => __( '&nbsp;Make sure your image is a <b>PNG!</b><br><hr style="float:left;width:90%;border: 1px dotted #CCC;margin-top: 35px;margin-bottom:15px;">', 'woo-wco' ),
+					'desc'     => __(
+
+						'&nbsp;
+						<br>
+						<span>
+						<span class="button secondary" id="saverow" name="saverow">Save Row</span>
+						</span>
+						<span class="button secondary" id="deleterow" name="deleterow">Delete Row</span>
+
+						<span>
+						</span>
+						<p><br><hr><br></p>
+				', 'woo-wco' ),
+					//'desc'     => __( '&nbsp;Make sure your image is a <b>PNG!</b><br><hr style="float:left;width:90%;border: 1px dotted #CCC;margin-top: 35px;margin-bottom:15px;">', 'woo-wco' ),
 					'class'    => 'overlay-input',
 					'css'      => 'max-width:700px;width:100%;',
 				];
@@ -332,7 +345,6 @@ class WCO_Settings_Tab {
 			}
 		endif;
 		$settings_wco[] = [ 'type' => 'sectionend', 'id' => 'wco_2' ];
-
 
 		//echo '<p class="submit wco-submit">';
 		//submit_button( 'Reset All', 'delete button-secondary', 'wco-delete', false, $other_attributes );

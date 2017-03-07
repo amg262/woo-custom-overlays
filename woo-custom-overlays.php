@@ -51,10 +51,10 @@ class WCO_Plugin {
 		/**
 		 * Including files in other directories
 		 */
-		include_once __DIR__ . '/admin/class-wco-options.php';
-		include_once __DIR__.'/inc/script-styles.php';
+		include_once __DIR__ . '/classes/class-wco-options.php';
+		include_once __DIR__ . '/includes/script-styles.php';
 
-		add_action( 'wp_enqueue_scripts', array( $this, 'load_includes' ) );
+		add_action( 'init', array( $this, 'load_includes' ) );
 		add_filter( 'plugin_action_links', array($this, 'wco_settings_link'), 10, 5 );
 
 		$this->add_options();
@@ -92,10 +92,7 @@ class WCO_Plugin {
 		wp_enqueue_script( 'validate_js',
 		                   'https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js' );
 
-		wp_register_script( 'wco_js', WCO_JS, array( 'jquery' ) );
-		wp_register_style( 'wco_css', WCO_CSS );
-		wp_enqueue_script( 'wco_js' );
-		wp_enqueue_style( 'wco_css' );
+		//wp_register_script(
 
 	}
 
