@@ -235,6 +235,8 @@ class WCO_Settings_Tab {
 		if ( $rows > 0 ):
 
 			for ( $i = 0; $i < $rows; $i ++ ) {
+
+			$targ = 'wco_2_'. $i;
 				//echo '<hr>';
 				$settings_wco[] = [
 					'title'    => __( 'Active Target', 'woocommerce' ),
@@ -317,9 +319,9 @@ class WCO_Settings_Tab {
 						'&nbsp;
 						<br>
 						<span>
-						<span class="button secondary" id="saverow" name="saverow">Save Row</span>
+						<span class="button secondary saverow" id="'.$targ.'">Save Row</span>
 						</span>
-						<span class="button secondary" id="deleterow" name="deleterow">Delete Row</span>
+						<span class="button secondary deleterow" id="'.$targ.'">Save Row</span>
 
 						<span>
 						</span>
