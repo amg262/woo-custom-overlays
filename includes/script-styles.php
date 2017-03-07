@@ -6,8 +6,8 @@ defined( 'ABSPATH' ) or die( 'Plugin file cannot be accessed directly.' );
 /**
  * Script styles to run jQuery on pages
  */
-add_action( 'wp_enqueue_scripts', 'wco_setup_scripts' );
-add_action( 'wp_enqueue_scripts', 'wco_scripts', 1 );
+add_action( 'init', 'wco_setup_scripts' );
+add_action( 'init', 'wco_scripts', 1 );
 //add_action( 'wp_enqueue_scripts', 'oss_styles' );
 
 function wco_setup_scripts() {
@@ -81,6 +81,11 @@ function wco_scripts() { ?>
 			'value'  => get_option( 'wco_2_selector_' . $k ),
 		];
 
+		$opt = get_option( 'wco_2_selector_' . $k . '_text' );
+		$terms = get_terms(['taxonomy'=>'product_cat', 'name'=>$opt]);
+		$prod = get_posts(['post_type'=>'product', 'post_title'=> $opt]);
+
+
 		$arr_2[] = [
 			'id'     => $k,
 			'option' => 'wco_2_selector_' . $k . '_text',
@@ -99,18 +104,8 @@ function wco_scripts() { ?>
 			'post_type' => 'product',
 			'post_title'     => esc_attr($text),
 		];
-		$posts = query_posts($args);
-		$post_str = "";
-		if ($posts) {
-		    foreach($posts as $post) {
-		        $post_str = 'post-'.$post->ID;
-            }
 
-		}
-
-		update_option('wco_2_selector_' . $k . '_obj', $post_str );
 		$aaa = get_option( 'wco_2_classes' );
-
 		$var = get_option( 'wco_2_selector_' . $k );
 		$cla = $aaa[ intval( $var ) ];
 
@@ -152,7 +147,7 @@ function wco_scripts() { ?>
         <?php $i = 0; ;$k = 0;$r = -1; //var_dump($arr_2); ?>
         <?php foreach ($arr_2 as $value) {//for ($p = 0; $p <= count($arr_2); $p++ ) {?>
 
-        <?php
+        <?php var_dump($terms); var_dump($prod);
 	
 			//var_dump($val['value']);
 		//}
@@ -184,6 +179,12 @@ function wco_scripts() { ?>
 			$url = esc_url($value);
 		}
 		if ( $option ===  'wco_2_selector_'.$id ) {
+			$selector = $value;
+		}
+		if ( $option ===  'wco_2_selector_'.$id .'_text' ) {
+			$selector = $value;
+		}
+		if ( $option ===  'wco_2_selector_'.$id.'_obj' ) {
 			$selector = $value;
 		}
 		if ( $option ===  'wco_2_class_'.$id ) {

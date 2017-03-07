@@ -267,20 +267,19 @@ class WCO_Settings_Tab {
 					'options'  => __( $ar, 'woo-wco' ),
 				];
 
-
 				$settings_wco[] = [
-					'id'       => 'wco_2_selector_' . $i.'_text',
+					'id'    => 'wco_2_selector_' . $i . '_text',
 					//'default'  => 1,
-					'type'     => 'text',
-					'class'    => 'wco_2_selector_id',
+					'type'  => 'text',
+					'class' => 'wco_2_selector_id',
 				];
 
 				$settings_wco[] = [
-					'id'       => 'wco_2_selector_' . $i.'_text',
+					'id'   => 'wco_2_selector_' . $i . '_obj',
 					//'default'  => 1,
-					'type'     => 'text',
-					'class'    => 'wco_2_selector_id',
+					'type' => 'text',
 				];
+				
 				/*$settings_wco[] = array(
 					'name'     => __( 'Backgroound Size', 'woo-wco' ),
 					'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-wco' ),
