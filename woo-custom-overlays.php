@@ -79,11 +79,26 @@ class WCO_Plugin {
 	 *
 	 */
 	public function load_includes() {
+		wp_enqueue_script( 'jquery-ui' );
+
+
+		wp_enqueue_script( 'sweetalertjs',
+		                   'https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js' );
+		//wp_enqueue_script( 'chart_js' );
+		wp_enqueue_style( 'sweetalert_css',
+		                  'https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css' );
+
+		//wp_enqueue_script( 'chart_js' );
+		wp_enqueue_script( 'validate_js',
+		                   'https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js' );
+
 		wp_register_script( 'wco_js', WCO_JS, array( 'jquery' ) );
 		wp_register_style( 'wco_css', WCO_CSS );
 		wp_enqueue_script( 'wco_js' );
 		wp_enqueue_style( 'wco_css' );
+
 	}
+
 
 	/**
 	 * @param $actions
