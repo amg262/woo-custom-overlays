@@ -115,15 +115,15 @@ class WCO_Settings_Tab {
 	public static function get_settings() {
 		$data = [];
 		$args = [];
-		$lic  = get_option( 'wco_license' );
-		$rows = get_option( 'wco_rows' );
+		$lic  = get_option( 'wco_2_license' );
+		$rows = get_option( 'wco_2_rows' );
 
 		if ( ! $lic ) {
-			update_option( 'wco_license', mt_rand() );
+			update_option( 'wco_2_license', mt_rand() );
 		}
 
 		if ( ! $rows ) {
-			update_option( 'wco_rows', 0 );
+			update_option( 'wco_2_rows', 0 );
 		}
 		//var_dump( $wco_data );
 
