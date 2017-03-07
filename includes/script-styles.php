@@ -11,6 +11,7 @@ add_action( 'wp_enqueue_scripts', 'wco_scripts', 1 );
 //add_action( 'wp_enqueue_scripts', 'oss_styles' );
 
 function wco_setup_scripts() {
+
 	wp_enqueue_script( 'jquery' );
 	wp_enqueue_script( 'jquery-ui-core' );
 }
@@ -18,7 +19,6 @@ function wco_setup_scripts() {
 /**
  * Enqueue scripts
  */
-
 
 function wco_scripts() { ?>
 
@@ -37,6 +37,7 @@ function wco_scripts() { ?>
 		'wco_2_background_size_',
 		'wco_2_image_opacity_',
 		'wco_2_image_url_',
+		'wco_2_selector_',
 		'wco_2_selector_',
 	];
 	$i     = 0;
@@ -80,7 +81,36 @@ function wco_scripts() { ?>
 			'value'  => get_option( 'wco_2_selector_' . $k ),
 		];
 
+		$arr_2[] = [
+			'id'     => $k,
+			'option' => 'wco_2_selector_' . $k . '_text',
+			'value'  => get_option( 'wco_2_selector_' . $k . '_text' ),
+		];
+
+		$arr_2[] = [
+			'id'     => $k,
+			'option' => 'wco_2_selector_' . $k . '_obj',
+			'value'  => get_option( 'wco_2_selector_' . $k . '_obj' ),
+		];
+
+		$text = get_option( 'wco_2_selector_' . $k . '_text' );
+
+		$args = [
+			'post_type' => 'product',
+			'post_title'     => esc_attr($text),
+		];
+		$posts = query_posts($args);
+		$post_str = "";
+		if ($posts) {
+		    foreach($posts as $post) {
+		        $post_str = 'post-'.$post->ID;
+            }
+
+		}
+
+		update_option('wco_2_selector_' . $k . '_obj', $post_str );
 		$aaa = get_option( 'wco_2_classes' );
+
 		$var = get_option( 'wco_2_selector_' . $k );
 		$cla = $aaa[ intval( $var ) ];
 
@@ -105,17 +135,15 @@ function wco_scripts() { ?>
 	//var_dump($arr_4);
 	//var_dump($arr_4);
 
-
 	//var_dump($arr_4);
-
 
 	?>
     <script type="text/javascript">
 
-        jQuery(document).ready(function ($) {
+      jQuery(document).ready(function ($) {
 
 
-        });
+      });
 
     </script>
 

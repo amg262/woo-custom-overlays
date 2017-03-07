@@ -13,6 +13,9 @@ defined( 'ABSPATH' ) or die( 'Plugin file cannot be accessed directly.' );
 include __DIR__ . '/class-wco-worker.php';
 
 
+/**
+ * Class WCO_Settings_Tab
+ */
 class WCO_Settings_Tab {
 
 	/**
@@ -34,6 +37,9 @@ class WCO_Settings_Tab {
 	}
 
 
+	/**
+	 *
+	 */
 	public static function wco_admin() {
 
 		$file = plugins_url( '/assets/lib/js/wco_admin.js', __DIR__ );
@@ -44,7 +50,7 @@ class WCO_Settings_Tab {
 
 			$ajax_object = [
 				'ajax_url' => admin_url( 'admin-ajax.php' ),
-				'nonce'    => wp_create_nonce('wco-nonce'),
+				'nonce'    => wp_create_nonce( 'wco-nonce' ),
 				'whatever' => 'product',
 			];
 			wp_localize_script( 'wco_admin_js', 'ajax_object', $ajax_object );
@@ -52,6 +58,9 @@ class WCO_Settings_Tab {
 	}
 
 
+	/**
+	 *
+	 */
 	public static function wco_ajax() {
 
 		//global $wpdb;
@@ -59,7 +68,7 @@ class WCO_Settings_Tab {
 		check_ajax_referer( 'wco-nonce', 'security' );
 
 		$whatever = $_POST[ 'whatever' ];
-		$posts    = get_posts( );
+		$posts    = get_posts();
 
 		foreach ( $posts as $p ) {
 			echo $p->post_title . '<br>';
@@ -71,6 +80,9 @@ class WCO_Settings_Tab {
 	}
 
 
+	/**
+	 *
+	 */
 	public static function submit_button() {
 	}
 
@@ -184,7 +196,7 @@ class WCO_Settings_Tab {
 		$arrr = array_merge( $prod_iden, $cat_iden );
 		$ar   = array_merge( $arrr, $attr_iden );
 
-		var_dump($ar);
+		//var_dump( $prod );
 
 		//var_dump($ar);
 
@@ -239,7 +251,7 @@ class WCO_Settings_Tab {
 
 			for ( $i = 0; $i < $rows; $i ++ ) {
 
-			$targ = 'wco_2-'. $i;
+				$targ = 'wco_2-' . $i;
 				//echo '<hr>';
 				$settings_wco[] = [
 					'title'    => __( 'Active Target', 'woocommerce' ),
@@ -247,7 +259,7 @@ class WCO_Settings_Tab {
 					'id'       => 'wco_2_selector_' . $i,
 					//'default'  => 1,
 					'type'     => 'select',
-					'class'    => 'wc-enhanced-select',
+					'class'    => 'wc-enhanced-select wco_2_selector',
 					'desc_tip' => true,
 					//'options'  => array(
 					//	'opt_'.$i      => __( $arr[$i], 'woocommerce' ),
@@ -255,6 +267,20 @@ class WCO_Settings_Tab {
 					'options'  => __( $ar, 'woo-wco' ),
 				];
 
+
+				$settings_wco[] = [
+					'id'       => 'wco_2_selector_' . $i.'_text',
+					//'default'  => 1,
+					'type'     => 'text',
+					'class'    => 'wco_2_selector_id',
+				];
+
+				$settings_wco[] = [
+					'id'       => 'wco_2_selector_' . $i.'_text',
+					//'default'  => 1,
+					'type'     => 'text',
+					'class'    => 'wco_2_selector_id',
+				];
 				/*$settings_wco[] = array(
 					'name'     => __( 'Backgroound Size', 'woo-wco' ),
 					'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-wco' ),
@@ -322,9 +348,9 @@ class WCO_Settings_Tab {
 						'&nbsp;
 						<br>
 						<span>
-						<span class="button secondary saverow" id="'.$targ.'">Save Row</span>
+						<span class="button secondary saverow" id="' . $targ . '">Save Row</span>
 						</span>
-						<span class="button secondary deleterow" id="'.$targ.'">Remove Row</span>
+						<span class="button secondary deleterow" id="' . $targ . '">Remove Row</span>
 
 						<span>
 						</span>
