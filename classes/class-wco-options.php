@@ -184,6 +184,8 @@ class WCO_Settings_Tab {
 		$arrr = array_merge( $prod_iden, $cat_iden );
 		$ar   = array_merge( $arrr, $attr_iden );
 
+		var_dump($ar);
+
 		//var_dump($ar);
 
 		$settings_wco = [];
