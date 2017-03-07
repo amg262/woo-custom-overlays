@@ -224,6 +224,7 @@ class WCO_Settings_Tab {
 				<span>
 				<button class="button secondary"><a id="delrow" name="delrow">Remove</a></button>
 				</span>
+				<p><br><hr><br></p>
 				', 'woo-wco' ),
 			//'desc'     => __( '&nbps;<button class="button button-primary"><a id="submit" style="color:#FFF;">Add Row</a></button><hr style="float:left;width:90%;border: 1px solid #000;margin-top: 35px;margin-bottom:15px;">', 'woo-wco' ),
 			//'placeholder' => 'center top',
@@ -236,7 +237,7 @@ class WCO_Settings_Tab {
 
 			for ( $i = 0; $i < $rows; $i ++ ) {
 
-			$targ = 'wco_2_'. $i;
+			$targ = 'wco_2-'. $i;
 				//echo '<hr>';
 				$settings_wco[] = [
 					'title'    => __( 'Active Target', 'woocommerce' ),
@@ -321,7 +322,7 @@ class WCO_Settings_Tab {
 						<span>
 						<span class="button secondary saverow" id="'.$targ.'">Save Row</span>
 						</span>
-						<span class="button secondary deleterow" id="'.$targ.'">Save Row</span>
+						<span class="button secondary deleterow" id="'.$targ.'">Remove Row</span>
 
 						<span>
 						</span>
