@@ -1,0 +1,11 @@
+{
+    "name": "andy/woo-custom-overlays",
+    "description": "woo",
+    "authors": [
+        {
+            "name": "Andrwe Gunn",
+            "email": "andrewmgunn26@gmail.com"
+        }
+    ],
+    "require": {}
+}
