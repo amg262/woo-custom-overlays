@@ -4,7 +4,12 @@
   "description": "woo",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "refresh": "npm update && npm rebuild && npm start",
+    "start": "gulp",
+    "build": "gulp build",
+    "clean": "gulp clean",
+    "watch": "gulp serve",
+    "postinstall": "composer install && gulp"
   },
   "repository": {
     "type": "git",

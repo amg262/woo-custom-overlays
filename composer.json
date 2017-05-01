@@ -7,5 +7,12 @@
             "email": "andrewmgunn26@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "phpmd/phpmd": "dev-master",
+        "phing/phing": "^3.0@dev",
+        "phpunit/phpunit": "^6.1@dev",
+        "behat/behat": "^3.2@dev",
+        "phpspec/phpspec": "^3.0@dev",
+        "roave/security-advisories": "dev-master"
+    }
 }

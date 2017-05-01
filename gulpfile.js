@@ -13,7 +13,7 @@ const cssnano = require("gulp-cssnano");
 
 var paths = {
     assets: "assets/",
-    home: "wc-bom.php",
+    home: "woo-custom-overlays.php",
     lib_js: "assets/lib/scripts/",
     lib_css: "assets/lib/styles/",
     lib_img: "assets/lib/images/*",
@@ -21,7 +21,7 @@ var paths = {
     dist_js: "assets/dist/scripts/",
     dist_css: "assets/dist/styles/",
     dist_img: "assets/dist/images/",
-    includes: "includes/",
+    includes: "inc/",
     classes: "classes/"
 };
 
@@ -86,3 +86,7 @@ gulp.task("watch", function () {
 gulp.task("default", ["purge", "imagemin", "cssnano", "uglify", "serve", "watch"]);
 gulp.task("clean", ["purge", "imagemin", "cssnano", "uglify"]);
 gulp.task("live", ["serve", "watch"]);
+
+//gulp.task("default", ["purge", "imagemin", "cssnano", "uglify", "serve", "watch"]);
+//gulp.task("clean", ["purge", "imagemin", "cssnano", "uglify"]);
+//gulp.task("live", ["serve", "watch"]);
