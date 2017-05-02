@@ -265,16 +265,6 @@ class WC_Settings_Tab_wco {
 			'desc'     => __( '<small>&nbsp;Check this to <b>DISABLE</b> the out of stock overlay</small>', 'woo-wco' )
 		);*/
 		// Add second text field option
-		echo '<h3>To create a overlays, choose the number of total rows, or seperate overlay images and click save. ';
-		$settings_wco[] = array(
-			'name'     => __( 'License Key', 'woo-wco' ),
-			//'desc_tip' => __( 'Set the opacity of the overlay image. Default is <b>.8</b>', 'woo-wco' ),
-			'id'       => 'wco_2_license_key',
-			'type'     => 'text',
-			'desc'     => __( '&nbsp;<button class="button button-primary"><a id="submit" style="color:#FFF;">Save</a></button>', 'woo-wco' ),
-			//'placeholder' => 'center top',
-			'css'    => 'max-width:500px; width:550px;'
-		);
 
 
 
@@ -285,7 +275,7 @@ class WC_Settings_Tab_wco {
 			'type'     => 'select',
 			'class'    => 'wc-enhanced-select',
 			'default' => 0,
-			'desc'     => __( '&nbsp;<button class="button button-primary"><a id="submit" style="color:#FFF;">Save</a></button>', 'woo-wco' ),
+			'desc'     => __( '<h2><b>To create a overlays, choose the # of rows and SAVE. To hide a row lower the # and SAVE.<br>Always SAVE when any change is made to # of rows.</b></h2>', 'woo-wco' ),
 			//'desc'     => __( '&nbps;<button class="button button-primary"><a id="submit" style="color:#FFF;">Add Row</a></button><hr style="float:left;width:90%;border: 1px solid #000;margin-top: 35px;margin-bottom:15px;">', 'woo-wco' ),
 			//'placeholder' => 'center top',
 			'css'    => 'max-width: 70px;width: 100%;text-align: center; display: inline-block!important;',
@@ -357,7 +347,7 @@ class WC_Settings_Tab_wco {
 				'type'     => 'text',
 				'desc'     => __( '', 'woo-wco' ),
 				'placeholder' => 'center top',
-				'default' => 'center top',
+				//'default' => 'center top',
 				'class'    => ''
 			);
 			$settings_wco[] = array(
@@ -366,7 +356,8 @@ class WC_Settings_Tab_wco {
 				'id'       => 'wco_2_background_color_'.$i,
 				'type'     => 'text',
 				'desc'     => __( '', 'woo-wco' ),
-				'default' => 'transparent',
+				'placeholder' => 'transparent',
+				//'default' => 'transparent',
 				'class'    => ''
 			);
 
@@ -380,7 +371,7 @@ class WC_Settings_Tab_wco {
 				'autoload' => false,
 				///'desc'     => __( '', 'woo-wco' ),
 				'placeholder' => 'no-repeat',
-				'default' => 'no-repeat',
+				//'default' => 'no-repeat',
 				'class'    => ''
 			);
 
@@ -391,7 +382,7 @@ class WC_Settings_Tab_wco {
 				'type'     => 'text',
 				'desc'     => __( '', 'woo-wco' ),
 				'placeholder' => '.8',
-				'default' => '.8',
+				//'default' => '.8',
 				'class'    => ''
 			);
 			
