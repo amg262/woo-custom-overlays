@@ -1,9 +1,9 @@
-=== WooCommerce Image Overlay ===
-Contributors: netraa414, amg26
+=== WooCommerce Custom Overlays ===
+Contributors: amg26, amgxyz, ryanvaness
 Tags: woocommerce, woo, woocommerce image overlay, image overlay, product overlay, custom image overlay, woocommerce overlay, woo out of stock, product overlay, custom overlay, woocommerce overlay, woocommerce product overlay,woocommerce, out of stock, product, woocommerce product, sold out, out of stock
-Donate link: http://andrewgunn.org/donate
+Donate link: http://andrewgunn.xyz/donate
 Requires at least: 3.0
-Tested up to: 4.7.2
+Tested up to: 4.5.3
 Stable tag: 2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
