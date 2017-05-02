@@ -1,0 +1,34 @@
+
+/** STYLES FOR MENU PAGES IN TOOLS.PHP**/
+
+.add_to_cart_button:before,
+.ajax_add_to_cart:before,
+.added_to_cart:before, 
+.add_to_cart_button:before,
+.ajax_add_to_cart:before,
+.added:before {
+	display: none !important;
+	background: none !important;
+}
+
+.wco-block {
+	display: block !important;
+}
+
+.submit.wco-submit {
+	display: inline-block;
+    float: left;
+    /* margin: auto; */
+    margin: 15px 10px 15px 0;
+}
+#wco-save {
+	margin:20px 10px 20px 0;
+}
+#wco-delete {
+	margin:20px 0 20px 5px;
+
+}
+
+.images .woocommerce-main-image.zoom, .woocommerce-LoopProduct-link {
+	display: block;
+}
